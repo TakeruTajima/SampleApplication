@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.ui.main.MainFragment;
-import com.mr2.domain.User;
+import com.mr2.domain.user.User;
 //import com.mr2.sample_application_ui.BlankFragment;
 
 public class MainActivity extends AppCompatActivity {

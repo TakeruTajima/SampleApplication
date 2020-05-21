@@ -1,3 +1,4 @@
 rootProject.name='Sample Application'
 include ':app'
 include ':sample_app_domain'
+include ':sample_app_infra'
