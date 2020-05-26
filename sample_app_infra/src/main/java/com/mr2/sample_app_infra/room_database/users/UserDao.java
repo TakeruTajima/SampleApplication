@@ -1,4 +1,4 @@
-package com.mr2.sample_app_infra.users;
+package com.mr2.sample_app_infra.room_database.users;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -11,15 +11,17 @@ import java.util.List;
 @Dao
 public interface UserDao {
     @Insert
-    void insert(User user);
+    void insert(UserEntity user);
     @Update
-    void update(User user);
+    void update(UserEntity user);
     @Delete
-    void delete(User user);
+    void delete(UserEntity user);
+    @Query("delete from users")
+    void deleteAll();
     @Query("select * from users order by code asc")
-    List<User> getAll();
+    List<UserEntity> getAll();
     @Query("select * from users where _id = :_id order by code asc")
-    List<User> findById(String _id);
+    List<UserEntity> findById(String _id);
     @Query("select * from users where code = :code order by code asc")
-    List<User> findByUserCode(String code);
+    List<UserEntity> findByUserCode(String code);
 }

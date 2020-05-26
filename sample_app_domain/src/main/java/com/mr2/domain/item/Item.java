@@ -3,6 +3,7 @@ package com.mr2.domain.item;
 import com.sun.istack.internal.NotNull;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Item {
     @NotNull
@@ -13,6 +14,13 @@ public class Item {
     public static int invariantInspection(@NotNull String name){
         if (null == name || 0 == name.length()) return 1;
         return -1;
+    }
+
+    public Item(@NotNull String name){
+        this._id = UUID.randomUUID().toString();
+        this.name = name;
+        if (-1 != invariantInspection(this.name))
+            throw new IllegalArgumentException("");
     }
 
     public Item(@NotNull String _id, @NotNull String name) {

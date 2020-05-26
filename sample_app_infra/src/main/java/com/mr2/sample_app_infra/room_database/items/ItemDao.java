@@ -1,4 +1,4 @@
-package com.mr2.sample_app_infra.items;
+package com.mr2.sample_app_infra.room_database.items;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -11,13 +11,15 @@ import java.util.List;
 @Dao
 public interface ItemDao {
     @Insert
-    void insert(Item item);
+    void insert(ItemEntity item);
     @Update
-    void update(Item item);
+    void update(ItemEntity item);
     @Delete
-    void delete(Item item);
+    void delete(ItemEntity item);
+    @Query("delete from items")
+    void deleteAll();
     @Query("select * from items")
-    List<Item> findAll();
+    List<ItemEntity> findAll();
     @Query("select * from items where _id = :_id")
-    List<Item> findOne(int _id);
+    List<ItemEntity> findOne(String _id);
 }

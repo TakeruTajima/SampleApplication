@@ -5,13 +5,27 @@ import com.mr2.domain.item.Item;
 import java.util.List;
 
 public class UserService {
-    public static boolean isDuplicationUserCode(UserQueryRepository qr, UserCode userCode){
-        return 0 != qr.findByUserCode(userCode).size();
+    public static User createUser(UserQueryRepository qr, UserCode userCode, Name name){
+        User user = qr.findByUserCode(userCode);
+        if (null != user) throw new IllegalArgumentException("重複しています");
+        return new User(userCode, name);
     }
 
-    public static void deliverItem(Item targetItem, User from, User to, int quantity){
-        if (quantity > from.numOfHoldings(targetItem)) throw new IllegalArgumentException();
-        from.releaseItems(targetItem, quantity);
-        to.getItems(targetItem, quantity);
+    public static boolean isDuplicationUserCode(UserQueryRepository qr, String user_id, UserCode userCode){
+        User user = qr.findByUserCode(userCode);
+        if (null == user) return false;
+        return !user._id().equals(user_id);
+    }
+
+    public static void tradeItem(User from, User to, Item item, int quantity){
+        if (1 <= from.numOfHoldings(item._id()))
+            throw new IllegalArgumentException();
+        from.giveItems(item._id(), quantity);
+        to.takeItems(item._id(), quantity);
+    }
+
+    public static void changeUserCode(UserQueryRepository qr, User user, UserCode newUserCode){
+        if (isDuplicationUserCode(qr, user._id(), newUserCode)) throw new IllegalArgumentException("重複しています");
+        user.changeUserCode(newUserCode);
     }
 }

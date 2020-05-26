@@ -1,4 +1,4 @@
-package com.mr2.sample_app_infra;
+package com.mr2.sample_app_infra.room_database;
 
 import android.content.Context;
 
@@ -6,14 +6,14 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.mr2.sample_app_infra.items.Item;
-import com.mr2.sample_app_infra.items.ItemDao;
-import com.mr2.sample_app_infra.users.User;
-import com.mr2.sample_app_infra.users.UserDao;
-import com.mr2.sample_app_infra.users_items.UserItem;
-import com.mr2.sample_app_infra.users_items.UserItemDao;
+import com.mr2.sample_app_infra.room_database.items.ItemDao;
+import com.mr2.sample_app_infra.room_database.items.ItemEntity;
+import com.mr2.sample_app_infra.room_database.users.UserDao;
+import com.mr2.sample_app_infra.room_database.users.UserEntity;
+import com.mr2.sample_app_infra.room_database.users_items.UserItemEntity;
+import com.mr2.sample_app_infra.room_database.users_items.UserItemDao;
 
-@Database(entities = {User.class, Item.class, UserItem.class}, version = 1, exportSchema = true)
+@Database(entities = {UserEntity.class, ItemEntity.class, UserItemEntity.class}, version = 1, exportSchema = true)
 public abstract class MyDatabase extends RoomDatabase {
     private static MyDatabase instance;
 

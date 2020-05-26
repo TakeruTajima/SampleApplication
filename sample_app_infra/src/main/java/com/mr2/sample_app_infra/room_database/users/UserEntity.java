@@ -1,4 +1,4 @@
-package com.mr2.sample_app_infra.users;
+package com.mr2.sample_app_infra.room_database.users;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.Objects;
 
 @Entity(tableName = "users")
-public class User {
+public class UserEntity {
     @PrimaryKey @NonNull
     public String _id;
     @NonNull
@@ -19,7 +19,7 @@ public class User {
     @NonNull
     public String family_name;
 
-    public User(@NonNull String _id, @NonNull String code, @NonNull String first_name, @NonNull String middle_name, @NonNull String family_name) {
+    public UserEntity(@NonNull String _id, @NonNull String code, @NonNull String first_name, @NonNull String middle_name, @NonNull String family_name) {
         this._id = _id;
         this.code = code;
         this.first_name = first_name;
@@ -30,8 +30,8 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
+        if (!(o instanceof UserEntity)) return false;
+        UserEntity user = (UserEntity) o;
         return _id.equals(user._id);
     }
 

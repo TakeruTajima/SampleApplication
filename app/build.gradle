@@ -41,6 +41,10 @@ android {
 }
 
 dependencies {
+    implementation project(":sample_app_domain")
+    implementation project(":sample_app_application")
+    implementation project(":sample_app_infra")
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
