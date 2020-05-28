@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/sample_app_application" />
             <option value="$PROJECT_DIR$/sample_app_domain" />
             <option value="$PROJECT_DIR$/sample_app_infra" />
+            <option value="$PROJECT_DIR$/ui_library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
