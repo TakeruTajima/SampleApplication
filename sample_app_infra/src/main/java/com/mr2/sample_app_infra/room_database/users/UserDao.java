@@ -20,8 +20,8 @@ public interface UserDao {
     void deleteAll();
     @Query("select * from users order by code asc")
     List<UserEntity> getAll();
-    @Query("select * from users where _id = :_id order by code asc")
-    List<UserEntity> findById(String _id);
+    @Query("select * from users where _id = :id order by code asc")
+    List<UserEntity> findById(String id);
     @Query("select * from users where code = :code order by code asc")
     List<UserEntity> findByUserCode(String code);
 }

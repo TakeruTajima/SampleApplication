@@ -20,6 +20,6 @@ public interface ItemDao {
     void deleteAll();
     @Query("select * from items")
     List<ItemEntity> findAll();
-    @Query("select * from items where _id = :_id")
-    List<ItemEntity> findOne(String _id);
+    @Query("select * from items where _id = :id")
+    List<ItemEntity> findOne(String id);
 }

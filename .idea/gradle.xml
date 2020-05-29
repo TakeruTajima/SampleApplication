@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/sample_app_application" />
             <option value="$PROJECT_DIR$/sample_app_domain" />
+            <option value="$PROJECT_DIR$/sample_app_domain2" />
             <option value="$PROJECT_DIR$/sample_app_infra" />
             <option value="$PROJECT_DIR$/ui_library" />
           </set>

@@ -21,8 +21,4 @@ public class MainActivity extends AppCompatActivity {
                     .commitNow();
         }
     }
-
-    public void setBlankFragment(){
-        User c = new User();
-    }
 }

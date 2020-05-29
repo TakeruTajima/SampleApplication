@@ -1,20 +1,19 @@
 package com.mr2.domain.user;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 
 public class Name {
-    @NotNull private final String firstName;
-    @NotNull private final String middleName;
-    @NotNull private final String familyName;
+    private final String firstName;
+    private final String middleName;
+    private final String familyName;
 
-    public static int invariantInspection(@NotNull String firstName, @NotNull String middleName, @NotNull String familyName){
-        if (0 == firstName.length()) return 1;
-        if (0 == familyName.length() && 0 != middleName.length()) return 2;
+    public static int invariantInspection(String firstName, String middleName, String familyName){
+        if (null == firstName || null == middleName || null == familyName) return 1;
+        if (0 == firstName.length()) return 2;
+        if (0 == familyName.length() && 0 != middleName.length()) return 3;
         return -1;
     }
 
-    public Name(@NotNull String firstName, @NotNull String middleName, @NotNull String familyName) throws IllegalArgumentException{
+    public Name(String firstName,  String middleName, String familyName){
         this.firstName = (null != firstName ? firstName : "");
         this.middleName = (null != middleName ? middleName : "");
         this.familyName = (null != familyName ? familyName : "");

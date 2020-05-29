@@ -38,12 +38,16 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
         for (UserItemEntity userItemEntity : userItemEntityList) {
             items.put(userItemEntity.item_id, userItemEntity.quantity);
         }
-        return new User(
-                userEntity._id,
-                new UserCode(userEntity.code),
-                new Name(userEntity.first_name,userEntity.middle_name,userEntity.family_name),
-                items
-        );
+        try {
+            return new User(
+                    userEntity._id,
+                    new UserCode(userEntity.code),
+                    new Name(userEntity.first_name,userEntity.middle_name,userEntity.family_name),
+                    items
+            );
+        }catch (Exception e){
+            e.printStackTrace();
+        }return null;
     }
 
     @Override
@@ -56,12 +60,17 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
         for (UserItemEntity userItemEntity : userItemList) {
             items.put(userItemEntity.item_id, userItemEntity.quantity);
         }
-        return new User(
-                user._id,
-                new UserCode(user.code),
-                new Name(user.first_name,user.middle_name,user.family_name),
-                items
-        );
+        try {
+
+            return new User(
+                    user._id,
+                    new UserCode(user.code),
+                    new Name(user.first_name,user.middle_name,user.family_name),
+                    items
+            );
+        }catch (Exception e){
+            e.printStackTrace();
+        }return null;
     }
 
     @Override
@@ -74,12 +83,17 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
             for (UserItemEntity userItemEntity : userItemEntityList) {
                 items.put(userItemEntity.item_id, userItemEntity.quantity);
             }
-            result.add(new User(
-                    userEntity._id,
-                    new UserCode(userEntity.code),
-                    new Name(userEntity.first_name, userEntity.middle_name, userEntity.family_name),
-                    items
-            ));
+            try{
+
+                result.add(new User(
+                        userEntity._id,
+                        new UserCode(userEntity.code),
+                        new Name(userEntity.first_name, userEntity.middle_name, userEntity.family_name),
+                        items
+                ));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return result;
     }

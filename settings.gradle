@@ -1,5 +1,6 @@
 rootProject.name='Sample Application'
 include ':app', ':ui_library'
-include ':sample_app_domain'
+include ':sample_app_domain2'
 include ':sample_app_infra'
 include ':sample_app_application'
+include ':sample_app_domain'

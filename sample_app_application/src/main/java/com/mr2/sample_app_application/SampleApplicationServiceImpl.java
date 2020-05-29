@@ -1,21 +1,29 @@
 package com.mr2.sample_app_application;
 
-import com.mr2.domain.item.Item;
-import com.mr2.domain.item.ItemCommandRepository;
-import com.mr2.domain.item.ItemQueryRepository;
-import com.mr2.domain.user.Name;
-import com.mr2.domain.user.User;
-import com.mr2.domain.user.UserCode;
-import com.mr2.domain.user.UserCommandRepository;
-import com.mr2.domain.user.UserQueryRepository;
-import com.mr2.domain.user.UserService;
+import com.mr2.domain.item.*;
+//import com.mr2.domain.item.Item;
+//import com.mr2.domain.item.ItemCommandRepository;
+//import com.mr2.domain.item.ItemQueryRepository;
+import com.mr2.domain.user.*;
+//import com.mr2.domain.user.User;
+//import com.mr2.domain.user.UserCode;
+//import com.mr2.domain.user.UserCommandRepository;
+//import com.mr2.domain.user.UserQueryRepository;
+//import com.mr2.domain.user.UserService;
+//import com.mr2.sample_app_domain.*;
 
-class SampleApplicationServiceImpl implements SampleApplicationService {
-    private UserQueryRepository userQuery;
-    private UserCommandRepository userCommand;
-    private ItemQueryRepository itemQuery;
-    private ItemCommandRepository itemCommand;
+import java.util.jar.Attributes;
 
+import javax.inject.Inject;
+
+
+public class SampleApplicationServiceImpl implements SampleApplicationService {
+    @Inject public UserQueryRepository userQuery;
+    @Inject public UserCommandRepository userCommand;
+    @Inject public ItemQueryRepository itemQuery;
+    @Inject public ItemCommandRepository itemCommand;
+
+    @Inject
     public SampleApplicationServiceImpl(
             UserQueryRepository userQuery,
             UserCommandRepository userCommand,

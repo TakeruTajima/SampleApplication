@@ -1,8 +1,5 @@
 package com.mr2.domain.user;
 
-import com.mr2.domain.item.Item;
-import com.sun.istack.internal.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,22 +7,23 @@ import java.util.Map;
 import java.util.UUID;
 
 public class User {
-    @NotNull private final String _id;
-    @NotNull private UserCode userCode;
-    @NotNull private Name name;
+    private final String _id;
+    private UserCode userCode;
+    private Name name;
     private Map<String, Integer> holdingItems;
 
-    User(@NotNull UserCode userCode, @NotNull Name name) {
+    User( UserCode userCode,  Name name) {
+        if (null == userCode || null == name) throw new IllegalArgumentException();
         this._id = UUID.randomUUID().toString();
-        this.userCode = userCode;
-        this.name = name;
+//        this.userCode = userCode;
+//        this.name = name;
         this.holdingItems = new HashMap<>();
     }
 
-    public User(@NotNull String _id, @NotNull UserCode userCode, @NotNull Name name, @NotNull Map<String, Integer> holdingItems) {
+    public User(String _id,  UserCode userCode,  Name name,  Map<String, Integer> holdingItems) {
         this._id = _id;
-        this.userCode = userCode;
-        this.name = name;
+//        this.userCode = userCode;
+//        this.name = name;
         this.holdingItems = holdingItems;
     }
 
@@ -58,8 +56,8 @@ public class User {
         return quantity;
     }
 
-    public void takeItems(@NotNull String item_id, int quantity){
-        if (0 >= quantity) throw new IllegalArgumentException("");
+    public void takeItems( String item_id, int quantity){
+        if (0 >= quantity || null== item_id) throw new IllegalArgumentException("");
         if (1 <= numOfHoldings(item_id)){
             holdingItems.replace(item_id, numOfHoldings(item_id) + quantity);
         }else {
@@ -67,7 +65,7 @@ public class User {
         }
     }
 
-    public void giveItems(@NotNull String item_id, int quantity){
+    public void giveItems( String item_id, int quantity){
         if (0 >= quantity) throw new IllegalArgumentException("");
         if (0 == numOfHoldings(item_id)) return;
         else if (quantity > numOfHoldings(item_id)) throw new IllegalArgumentException("");
@@ -80,12 +78,12 @@ public class User {
     }
 
     //UserCodeは重複が許されず、他の集約が関わってくるので、この操作はドメインサービスの責務に該当する。
-    void changeUserCode(@NotNull UserCode newUserCode){
-        this.userCode = newUserCode;
+    void changeUserCode( UserCode newUserCode){
+//        this.userCode = newUserCode;
     }
 
-    public void changeName(@NotNull Name name){
-        this.name = name;
+    public void changeName( Name name){
+//        this.name = name;
     }
 
 }

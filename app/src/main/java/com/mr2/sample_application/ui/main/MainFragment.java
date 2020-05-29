@@ -1,5 +1,6 @@
 package com.mr2.sample_application.ui.main;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -32,7 +33,11 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+//        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        assert null != getActivity();
+        mViewModel = new ViewModelProvider
+                .AndroidViewModelFactory(getActivity().getApplication())
+                .create(MainViewModel.class);
         // TODO: Use the ViewModel
     }
 
