@@ -19,7 +19,7 @@ public class ItemCommandRepositoryImpl implements ItemCommandRepository {
         db.runInTransaction(new Runnable() {
             @Override
             public void run() {
-                ItemEntity itemEntity = new ItemEntity(item._id(), item.name());
+                ItemEntity itemEntity = new ItemEntity(item._id(), item.name(), item.unitName());
                 List<ItemEntity> itemList = db.itemDao().findOne(item._id());
                 if (2 <= itemList.size()) throw new IllegalStateException();
                 if (0 == itemList.size()){
@@ -36,7 +36,7 @@ public class ItemCommandRepositoryImpl implements ItemCommandRepository {
         db.runInTransaction(new Runnable() {
             @Override
             public void run() {
-                ItemEntity itemEntity = new ItemEntity(item._id(), item.name());
+                ItemEntity itemEntity = new ItemEntity(item._id(), item.name(), item.unitName());
                 List<ItemEntity> itemList = db.itemDao().findOne(item._id());
                 if (0 == itemList.size()) return;
                 db.itemDao().delete(itemEntity);

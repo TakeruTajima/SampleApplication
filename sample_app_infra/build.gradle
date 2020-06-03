@@ -27,6 +27,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
 }
 
@@ -45,5 +49,8 @@ dependencies {
     def room_version = "2.2.5"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
-//    implementation project(path: ':app')
+
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:2.1.2"
+    implementation 'com.google.android.material:material:1.1.0'
 }

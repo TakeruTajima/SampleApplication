@@ -6,6 +6,7 @@ import com.mr2.domain.user.UserCommandRepository;
 import com.mr2.domain.user.UserQueryRepository;
 import com.mr2.sample_app_application.SampleApplicationService;
 import com.mr2.sample_app_application.SampleApplicationServiceImpl;
+import com.mr2.sample_app_infra.observer.ObserverService;
 import com.mr2.sample_app_infra.repositories.ItemCommandRepositoryImpl;
 import com.mr2.sample_app_infra.repositories.ItemQueryRepositoryImpl;
 import com.mr2.sample_app_infra.repositories.UserCommandRepositoryImpl;
@@ -59,5 +60,10 @@ public class SampleApplicationModule {
                 provideUserCommandRepository(),
                 provideItemQueryRepository(),
                 provideItemCommandRepository());
+    }
+
+    @Provides
+    ObserverService provideObserverService(){
+        return new ObserverService(app.getApplicationContext());
     }
 }

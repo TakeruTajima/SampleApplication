@@ -12,16 +12,14 @@ import com.mr2.domain.user.*;
 //import com.mr2.domain.user.UserService;
 //import com.mr2.sample_app_domain.*;
 
-import java.util.jar.Attributes;
-
 import javax.inject.Inject;
 
 
 public class SampleApplicationServiceImpl implements SampleApplicationService {
-    @Inject public UserQueryRepository userQuery;
-    @Inject public UserCommandRepository userCommand;
-    @Inject public ItemQueryRepository itemQuery;
-    @Inject public ItemCommandRepository itemCommand;
+    public UserQueryRepository userQuery;
+    public UserCommandRepository userCommand;
+    public ItemQueryRepository itemQuery;
+    public ItemCommandRepository itemCommand;
 
     @Inject
     public SampleApplicationServiceImpl(
@@ -48,9 +46,9 @@ public class SampleApplicationServiceImpl implements SampleApplicationService {
     }
 
     @Override
-    public void createItem(String name) {
-        if (-1 != Item.invariantInspection(name)) return;
-        Item item = new Item(name);
+    public void createItem(String name, String unitName) {
+        if (-1 != Item.invariantInspection(name, unitName)) return;
+        Item item = new Item(name, unitName);
         itemCommand.save(item);
     }
 
@@ -74,9 +72,9 @@ public class SampleApplicationServiceImpl implements SampleApplicationService {
 
     @Override
     public void changeItemName(String itemId, String name) {
-        if (-1 != Item.invariantInspection(name)) return;
         Item item = itemQuery.findOne(itemId);
         if (null == item) return;
+        if (-1 != Item.invariantInspection(name, item.unitName())) return;
         item.changeName(name);
         itemCommand.save(item);
     }
@@ -120,5 +118,10 @@ public class SampleApplicationServiceImpl implements SampleApplicationService {
     public void clearAll() {
         userCommand.deleteAll();
         itemCommand.deleteAll();
+    }
+
+    @Override
+    public String getSampleText() {
+        return "getSampleText(): complete";
     }
 }
