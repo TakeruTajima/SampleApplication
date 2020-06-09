@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -34,6 +35,15 @@ public class SampleDataListFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        assert null != getActivity();
+        viewModel = new ViewModelProvider
+                .AndroidViewModelFactory(getActivity().getApplication())
+                .create(SampleDataListViewModel.class);
+    }
+
     /**
      * ViewとBindingのセッティング
      */
@@ -41,52 +51,9 @@ public class SampleDataListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.sample_data_list_fragment, container, false);
-        binding.sampleListFab.setOnClickListener(v -> {
-            if (null != binding.sampleRecycler.getAdapter()) {
-                Executors.ioThread(()->{
-//                    MyDatabase.getInstance(getContext()).sampleDao().insert(
-//                            new SampleListData("additional item")
-//                    );
-                });
-            }
-        });
-        return binding.getRoot();
-    }
-
-    /**
-     * ViewModelの取得
-     */
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        assert null != getActivity();
-        viewModel = new ViewModelProvider
-                .AndroidViewModelFactory(getActivity().getApplication())
-                .create(SampleDataListViewModel.class);
-        viewModel.isLoadFinished.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-//                notify(); //view model側で
-                loadingObserver(aBoolean);
-            }
-        });
+        binding.setLifecycleOwner(this);
         binding.setVm(viewModel);
-//        SampleDataListAdapter adapter = (SampleDataListAdapter) binding.sampleRecycler.getAdapter();
-//        viewModel.listLiveData.observe(getViewLifecycleOwner(), adapter::submitList); //nullpo
-        viewModel.fetchList();
-//        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.sample_data_list_fragment, )
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    private void loadingObserver(Boolean isFinished){
-        SampleDataListAdapter adapter = (SampleDataListAdapter) binding.sampleRecycler.getAdapter();
-        if (isFinished && null != adapter){
-            viewModel.listLiveData.observe(getViewLifecycleOwner(), adapter::submitList);
-            //liveData.observeが呼ばれた時点でPagedListの読み込みが開始される
-        }
+        binding.sampleListFab.setOnClickListener(v -> viewModel.addItem());
+        return binding.getRoot();
     }
 }

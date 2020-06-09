@@ -13,45 +13,34 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 //import androidx.paging.toLiveData; //kotlin拡張機能につき
 
+import com.mr2.sample_app_infra.room_database.MyDatabase;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
 import com.mr2.sample_application.Executors;
 import com.mr2.sample_application.MyApplication;
 
 public class SampleDataListViewModel extends AndroidViewModel {
     private final MyApplication app;
-    public LiveData<PagedList<SampleListData>> listLiveData = new MutableLiveData<>();
-    public DataSource.Factory<Integer, SampleListData> factory;
+    public LiveData<PagedList<SampleListData>> listLiveData /* = new MutableLiveData<>()*/;
     public MutableLiveData<Boolean> isLoadFinished = new MutableLiveData<>(false);
+//    public MutableLiveData<Integer> liveListSize = new MutableLiveData<>();
 
     public SampleDataListViewModel(@NonNull Application application) {
         super(application);
         app = (MyApplication) application;
         Executors.ioThread(()->{
-            factory = app.db.sampleDao().getPagedData();
-            listLiveData = new LivePagedListBuilder<>(factory, 30).build();
+            listLiveData = new LivePagedListBuilder<>(app.db.sampleDao().getPagedData(), 30).build();
             isLoadFinished.postValue(true);
         });
     }
 
-    public String getIsLoadFinished(){
-        return String.valueOf(isLoadFinished.getValue());
-    }
+    //　↓これのせいでpostValue()からの反映が効いてなかったっぽい
+//    public String getIsLoadFinished(){ return (null == isLoadFinished.getValue()) ? null : isLoadFinished.getValue().toString(); }
 
-    public PagedList<SampleListData> getPagedList(){
-        return listLiveData.getValue();
-    }
-
-    public void fetchList(){
+    public void addItem(){
         Executors.ioThread(()->{
-//            factory = app.db.sampleDao().getPagedData();
-////            PagedList.Config c = new PagedList.Config.Builder()
-////                    .setPageSize(30)
-////                    .setMaxSize(90)
-////                    .build();
-//            listLiveData = new LivePagedListBuilder<>(factory, 30).build();
-            //読み込みなどの作業はすぐには行われません。最初のPagedListの作成は、LiveDataが観察されるまで延期されます。
-            isLoadFinished.postValue(true);
-            //非同期なのでObserveするタイミングを通知
+            app.db.sampleDao().insert(
+                    new SampleListData("additional item")
+            );
         });
     }
 }

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            app:pagedList="@{vm.pagedList}"/>
+            app:pagedList="@{vm.listLiveData}"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sampleListFab"
@@ -31,6 +31,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{vm.isLoadFinished}"/>
+            android:text="@{ `isLoadFinished: ` + vm.isLoadFinished}"/>
+<!--        やっぱり vm.listLiveData.loadedCount (getLoadedCountメソッドから取得)　も更新してくれない　-->
     </FrameLayout>
 </layout>

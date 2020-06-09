@@ -38,13 +38,13 @@ public class SampleDataListAdapter extends PagedListAdapter<SampleListData, Samp
     public BindingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         SampleDataListRowBinding binding =
                 SampleDataListRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+//        binding.setLifecycleOwner(getViewLifecycleOwner()); // TODO どうやんの　いるの
         return new BindingHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BindingHolder holder, int position) {
         SampleListData item = getItem(position);
-//        holder.binding.
         holder.binding.setItem(item);
     }
 
