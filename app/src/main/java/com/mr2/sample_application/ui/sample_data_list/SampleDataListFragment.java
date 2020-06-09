@@ -24,7 +24,6 @@ import com.mr2.sample_application.databinding.SampleDataListFragmentBinding;
 public class SampleDataListFragment extends Fragment {
     private SampleDataListViewModel viewModel;
     private SampleDataListFragmentBinding binding;
-    private Context context;
 
     public static SampleDataListFragment newInstance() {
 
@@ -35,12 +34,28 @@ public class SampleDataListFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * ViewとBindingのセッティング
+     */
+    @Nullable
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.sample_data_list_fragment, container, false);
+        binding.sampleListFab.setOnClickListener(v -> {
+            if (null != binding.sampleRecycler.getAdapter()) {
+                Executors.ioThread(()->{
+//                    MyDatabase.getInstance(getContext()).sampleDao().insert(
+//                            new SampleListData("additional item")
+//                    );
+                });
+            }
+        });
+        return binding.getRoot();
     }
 
+    /**
+     * ViewModelの取得
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -48,44 +63,30 @@ public class SampleDataListFragment extends Fragment {
         viewModel = new ViewModelProvider
                 .AndroidViewModelFactory(getActivity().getApplication())
                 .create(SampleDataListViewModel.class);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.sample_data_list_fragment, container,false);
-        binding.setVm(viewModel);
-        binding.sampleListFab.setOnClickListener(v -> {
-            if (null != binding.sampleRecycler.getAdapter()) {
-                System.out.println("RecyclerView.Adapter.itemCount is -> ");
-                System.out.println("" + ((SampleDataListAdapter) binding.sampleRecycler.getAdapter()).getItemCount());
-                Executors.ioThread(()->{
-                    MyDatabase.getInstance(getContext()).sampleDao().insert(
-                            new SampleListData("additional item")
-                    );
-                });
+        viewModel.isLoadFinished.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+//                notify(); //view model側で
+                loadingObserver(aBoolean);
             }
         });
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        binding.setVm(viewModel);
+//        SampleDataListAdapter adapter = (SampleDataListAdapter) binding.sampleRecycler.getAdapter();
+//        viewModel.listLiveData.observe(getViewLifecycleOwner(), adapter::submitList); //nullpo
+        viewModel.fetchList();
+//        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.sample_data_list_fragment, )
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.isLoadFinished.observe(getViewLifecycleOwner(), this::loadingObserver);
-        viewModel.fetchList();
     }
 
     private void loadingObserver(Boolean isFinished){
         SampleDataListAdapter adapter = (SampleDataListAdapter) binding.sampleRecycler.getAdapter();
         if (isFinished && null != adapter){
             viewModel.listLiveData.observe(getViewLifecycleOwner(), adapter::submitList);
-            //submitListが呼ばれた時点でPagedListの読み込みが開始される
+            //liveData.observeが呼ばれた時点でPagedListの読み込みが開始される
         }
     }
 }

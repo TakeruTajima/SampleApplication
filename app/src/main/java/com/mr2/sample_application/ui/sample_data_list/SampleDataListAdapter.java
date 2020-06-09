@@ -1,10 +1,7 @@
 package com.mr2.sample_application.ui.sample_data_list;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
@@ -16,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
-import com.mr2.sample_application.R;
+import com.mr2.sample_application.databinding.SampleDataListRowBinding;
 
-public class SampleDataListAdapter extends PagedListAdapter<SampleListData, SampleDataListAdapter.ViewHolder> {
+public class SampleDataListAdapter extends PagedListAdapter<SampleListData, SampleDataListAdapter.BindingHolder> {
     private static DiffUtil.ItemCallback<SampleListData> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<SampleListData>() {
                 @Override
@@ -38,29 +35,25 @@ public class SampleDataListAdapter extends PagedListAdapter<SampleListData, Samp
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_data_list_row, parent, false);
-        return new ViewHolder(view);
+    public BindingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        SampleDataListRowBinding binding =
+                SampleDataListRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new BindingHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BindingHolder holder, int position) {
         SampleListData item = getItem(position);
-        holder.bindTo(item);
+//        holder.binding.
+        holder.binding.setItem(item);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView textHead;
-        private TextView textBody;
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.textHead = itemView.findViewById(R.id.sampleListRowHeader);
-            this.textBody = itemView.findViewById(R.id.sampleListRowBody);
-        }
-        void bindTo(SampleListData item){
-            if (null == item) return;
-            textHead.setText(item.id());
-            textBody.setText(item.name());
+    static class BindingHolder extends RecyclerView.ViewHolder {
+        private final com.mr2.sample_application.databinding.SampleDataListRowBinding binding;
+
+        BindingHolder(SampleDataListRowBinding binding){
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 

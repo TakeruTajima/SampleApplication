@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="sizeTextPrimary">24dp</dimen>
-    <dimen name="sizeTextSecondary">16dp</dimen>
-    <dimen name="sizeTextMinimum">12dp</dimen> <!-- dipは4の倍数で指定 -->
+    <dimen name="sizeTextPrimary">24sp</dimen>
+    <dimen name="sizeTextSecondary">16sp</dimen>
+    <dimen name="sizeTextMinimum">12sp</dimen> <!-- dipは4の倍数で指定 -->
 </resources>

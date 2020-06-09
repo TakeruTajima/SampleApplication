@@ -27,5 +27,10 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="12dp"
             android:src="@drawable/ic_add_dark_24dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{vm.isLoadFinished}"/>
     </FrameLayout>
 </layout>

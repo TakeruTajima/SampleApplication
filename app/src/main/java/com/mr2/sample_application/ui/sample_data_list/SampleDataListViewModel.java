@@ -19,13 +19,22 @@ import com.mr2.sample_application.MyApplication;
 
 public class SampleDataListViewModel extends AndroidViewModel {
     private final MyApplication app;
-    public LiveData<PagedList<SampleListData>> listLiveData;
+    public LiveData<PagedList<SampleListData>> listLiveData = new MutableLiveData<>();
     public DataSource.Factory<Integer, SampleListData> factory;
     public MutableLiveData<Boolean> isLoadFinished = new MutableLiveData<>(false);
 
     public SampleDataListViewModel(@NonNull Application application) {
         super(application);
         app = (MyApplication) application;
+        Executors.ioThread(()->{
+            factory = app.db.sampleDao().getPagedData();
+            listLiveData = new LivePagedListBuilder<>(factory, 30).build();
+            isLoadFinished.postValue(true);
+        });
+    }
+
+    public String getIsLoadFinished(){
+        return String.valueOf(isLoadFinished.getValue());
     }
 
     public PagedList<SampleListData> getPagedList(){
@@ -34,12 +43,12 @@ public class SampleDataListViewModel extends AndroidViewModel {
 
     public void fetchList(){
         Executors.ioThread(()->{
-            factory = app.db.sampleDao().getPagedData();
-            PagedList.Config c = new PagedList.Config.Builder()
-                    .setPageSize(30)
-                    .setMaxSize(90)
-                    .build();
-            listLiveData = new LivePagedListBuilder<>(factory, 30).build();
+//            factory = app.db.sampleDao().getPagedData();
+////            PagedList.Config c = new PagedList.Config.Builder()
+////                    .setPageSize(30)
+////                    .setMaxSize(90)
+////                    .build();
+//            listLiveData = new LivePagedListBuilder<>(factory, 30).build();
             //読み込みなどの作業はすぐには行われません。最初のPagedListの作成は、LiveDataが観察されるまで延期されます。
             isLoadFinished.postValue(true);
             //非同期なのでObserveするタイミングを通知
