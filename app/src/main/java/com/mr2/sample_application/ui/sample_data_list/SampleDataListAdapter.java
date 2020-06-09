@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,53 +32,54 @@ public class SampleDataListAdapter extends PagedListAdapter<SampleListData, Samp
                 }
             };
 
-    protected SampleDataListAdapter() {
+    private SampleDataListAdapter() {
         super(DIFF_CALLBACK);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_data_list_fragment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_data_list_row, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        System.out.println("onBindViewHolder is called. position:" + position);
         SampleListData item = getItem(position);
         holder.bindTo(item);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        private View view;
+    static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView textHead;
         private TextView textBody;
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.view = itemView;
-            this.textHead = view.findViewById(R.id.sampleListRowHead);
-            this.textBody = view.findViewById(R.id.sampleListRowBody);
+            this.textHead = itemView.findViewById(R.id.sampleListRowHeader);
+            this.textBody = itemView.findViewById(R.id.sampleListRowBody);
         }
-        public void bindTo(SampleListData item){
-            if (null == textHead || null == textBody) System.out.println("bindTo(): view is null.");
-            if (null != textHead) textHead.setText(item.id());
-            if (null != textBody) textBody.setText(item.name());
+        void bindTo(SampleListData item){
+            if (null == item) return;
+            textHead.setText(item.id());
+            textBody.setText(item.name());
         }
     }
 
+    /**
+     * カスタムセッター
+     *
+     * @param rv Tagを設定したViewのインスタンス
+     * @param list Tagに放り込まれた設定値
+     */
     @BindingAdapter({"pagedList"})
     public static void setPagedList(RecyclerView rv, PagedList<SampleListData> list){
-        System.out.println("setPagedList called.");
-        if (null != list) System.out.println("list.size():" + list.size());
-        if (null == list) System.out.println("list isNull.");
         SampleDataListAdapter adapter = (SampleDataListAdapter) rv.getAdapter();
         if (null == adapter){
-            //アダプター作ってList入れて？
             rv.setLayoutManager(new LinearLayoutManager(rv.getContext(), LinearLayoutManager.VERTICAL, false));
+            rv.setHasFixedSize(true);
             adapter = new SampleDataListAdapter();
+            rv.setAdapter(adapter);
+            rv.addItemDecoration(new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL));
         }
         adapter.submitList(list);
-        rv.setAdapter(adapter);
     }
 }

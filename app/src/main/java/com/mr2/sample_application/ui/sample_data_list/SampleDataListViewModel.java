@@ -20,7 +20,6 @@ import com.mr2.sample_application.MyApplication;
 public class SampleDataListViewModel extends AndroidViewModel {
     private final MyApplication app;
     public LiveData<PagedList<SampleListData>> listLiveData;
-    public MutableLiveData<Integer> listSize;
     public DataSource.Factory<Integer, SampleListData> factory;
     public MutableLiveData<Boolean> isLoadFinished = new MutableLiveData<>(false);
 
@@ -33,38 +32,17 @@ public class SampleDataListViewModel extends AndroidViewModel {
         return listLiveData.getValue();
     }
 
-    public String getListSize(){
-        return listSize.getValue() + "(s) records.";
-    }
-
     public void fetchList(){
         Executors.ioThread(()->{
             factory = app.db.sampleDao().getPagedData();
-            listLiveData = new LivePagedListBuilder<>(factory, 50).build();
+            PagedList.Config c = new PagedList.Config.Builder()
+                    .setPageSize(30)
+                    .setMaxSize(90)
+                    .build();
+            listLiveData = new LivePagedListBuilder<>(factory, 30).build();
+            //読み込みなどの作業はすぐには行われません。最初のPagedListの作成は、LiveDataが観察されるまで延期されます。
             isLoadFinished.postValue(true);
+            //非同期なのでObserveするタイミングを通知
         });
-
-
-        Executors.ioThreadForResult(() -> {
-            String threadName2 = Thread.currentThread().getName();
-            System.out.println("thread name: " + threadName2 + " in io thread"); //io thread
-        }, () -> {
-            String threadName = Thread.currentThread().getName();
-            System.out.println("thread name: " + threadName + " in a result"); //main thread
-        });
-//        new Thread(()->{
-//            DataSource.Factory<Integer, SampleListData> factory = app.db.sampleDao().getPagedData();
-//            listLiveData = new LivePagedListBuilder<>(factory, 50).build();
-//
-//            System.out.println("//////////////////////////////////////////LivePagedListBuilder<>(factory, 50).build()::: completed.");
-//            if (null == listLiveData)
-//                System.out.println("null == listLiveData");
-//            if (null == listLiveData.getValue())
-//                System.out.println("null == listLiveData.getValue()");
-//            System.out.println("//////////////////////////////////////////end.");
-
-//            listLiveData.observe(lifecycleOwner, observer);
-            //Cannot invoke observe on a background thread
-//        }).start();
     }
 }

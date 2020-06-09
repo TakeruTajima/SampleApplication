@@ -15,7 +15,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.mr2.sample_app_infra.room_database.MyDatabase;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
+import com.mr2.sample_application.Executors;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.SampleDataListFragmentBinding;
 
@@ -53,37 +55,37 @@ public class SampleDataListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.sample_data_list_fragment, container,false);
         binding.setVm(viewModel);
-//        if (null == binding.sampleRecycler.getAdapter()) {
-//            binding.sampleRecycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-//            binding.sampleRecycler.setAdapter(new SampleDataListAdapter());
-//            binding.sampleRecycler.setHasFixedSize(true);
-//        }
-        viewModel.isLoadFinished.observe(getViewLifecycleOwner(), this::loadingObserver);
-        viewModel.fetchList();
+        binding.sampleListFab.setOnClickListener(v -> {
+            if (null != binding.sampleRecycler.getAdapter()) {
+                System.out.println("RecyclerView.Adapter.itemCount is -> ");
+                System.out.println("" + ((SampleDataListAdapter) binding.sampleRecycler.getAdapter()).getItemCount());
+                Executors.ioThread(()->{
+                    MyDatabase.getInstance(getContext()).sampleDao().insert(
+                            new SampleListData("additional item")
+                    );
+                });
+            }
+        });
         return binding.getRoot();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.isLoadFinished.observe(getViewLifecycleOwner(), this::loadingObserver);
+        viewModel.fetchList();
+    }
 
     private void loadingObserver(Boolean isFinished){
-        System.out.println("loading observer called.");
         SampleDataListAdapter adapter = (SampleDataListAdapter) binding.sampleRecycler.getAdapter();
         if (isFinished && null != adapter){
-            System.out.println("load is finished.");
-            PagedList<SampleListData> p = viewModel.listLiveData.getValue();
-            System.out.println("paged list isNull?: " + (null == p)); // -> null
-//            viewModel.listLiveData.observe(getViewLifecycleOwner(), new Observer<PagedList<SampleListData>>() {
-//                @Override
-//                public void onChanged(PagedList<SampleListData> sampleListData) {
-//                    adapter.submitList(sampleListData);
-//                    System.out.println("sampleListData submit list is called.");
-//                    System.out.println("sample listData size :" + sampleListData.size()); // -> 300
-//                }
-//            });
-
+            viewModel.listLiveData.observe(getViewLifecycleOwner(), adapter::submitList);
+            //submitListが呼ばれた時点でPagedListの読み込みが開始される
         }
     }
 }

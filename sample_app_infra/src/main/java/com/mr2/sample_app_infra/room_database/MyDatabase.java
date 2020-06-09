@@ -27,7 +27,7 @@ public abstract class MyDatabase extends RoomDatabase {
         instance = Room.databaseBuilder(context,
                 MyDatabase.class,
                 "my_database").build();
-        initiate(instance);
+//        initiate(instance);
         return instance;
     }
 
@@ -35,7 +35,7 @@ public abstract class MyDatabase extends RoomDatabase {
         new Thread(()->{
             List<SampleListData> list = instance.sampleDao().findAll();
             if (0 != list.size()) return;
-            for (int i = 0; i < 300; i++) {
+            for (int i = 0; i < 30000; i++) {
                 SampleListData item = new SampleListData(i + "th item");
                 instance.sampleDao().insert(item);
             }

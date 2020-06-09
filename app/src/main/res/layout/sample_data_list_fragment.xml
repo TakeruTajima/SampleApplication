@@ -17,11 +17,15 @@
             android:id="@+id/sampleRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             app:pagedList="@{vm.pagedList}"/>
 
-        <TextView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sampleListFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{vm.listSize}"/>
+            android:layout_gravity="bottom|end"
+            android:layout_margin="12dp"
+            android:src="@drawable/ic_add_dark_24dp" />
     </FrameLayout>
 </layout>
