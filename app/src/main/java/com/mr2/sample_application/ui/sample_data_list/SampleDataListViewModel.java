@@ -22,19 +22,23 @@ public class SampleDataListViewModel extends AndroidViewModel {
     private final MyApplication app;
     public LiveData<PagedList<SampleListData>> listLiveData /* = new MutableLiveData<>()*/;
     public MutableLiveData<Boolean> isLoadFinished = new MutableLiveData<>(false);
-//    public MutableLiveData<Integer> liveListSize = new MutableLiveData<>();
+    public MutableLiveData<Integer> liveListSize = new MutableLiveData<>();
 
     public SampleDataListViewModel(@NonNull Application application) {
         super(application);
         app = (MyApplication) application;
+        /* Config example */
+//        PagedList.Config c = new PagedList.Config.Builder()
+//                .setPageSize(30)
+//                .setMaxSize(90)
+//                .setEnablePlaceholders(false)
+////                .setPrefetchDistance()
+//                .build();
         Executors.ioThread(()->{
             listLiveData = new LivePagedListBuilder<>(app.db.sampleDao().getPagedData(), 30).build();
             isLoadFinished.postValue(true);
         });
     }
-
-    //　↓これのせいでpostValue()からの反映が効いてなかったっぽい
-//    public String getIsLoadFinished(){ return (null == isLoadFinished.getValue()) ? null : isLoadFinished.getValue().toString(); }
 
     public void addItem(){
         Executors.ioThread(()->{
@@ -43,4 +47,7 @@ public class SampleDataListViewModel extends AndroidViewModel {
             );
         });
     }
+
+    //　以下はLiveDataから直接参照してないのでObserveできない？
+//    public String getIsLoadFinished(){ return (null == isLoadFinished.getValue()) ? null : isLoadFinished.getValue().toString(); }
 }

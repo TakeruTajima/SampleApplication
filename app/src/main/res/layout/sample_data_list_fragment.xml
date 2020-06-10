@@ -31,7 +31,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{ `isLoadFinished: ` + vm.isLoadFinished}"/>
-<!--        やっぱり vm.listLiveData.loadedCount (getLoadedCountメソッドから取得)　も更新してくれない　-->
+            android:text="@{ `isLoadFinished: ` + vm.liveListSize}"/>
     </FrameLayout>
 </layout>
