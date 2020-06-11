@@ -1,8 +1,13 @@
 package com.mr2.sample_application.ui.sample_data_list;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -52,7 +57,9 @@ public class SampleDataListFragment extends Fragment {
 
         binding.setLifecycleOwner(this);
         binding.setVm(viewModel);
-        binding.sampleListFab.setOnClickListener(v -> viewModel.addItem());
+        binding.sampleListFab.setOnClickListener(v -> {
+//            viewModel.addItem();
+        });
         viewModel.listLiveData.observe(getViewLifecycleOwner(), sampleListData -> {
             if (null != sampleListData)
             viewModel.liveListSize.postValue(sampleListData.getLoadedCount());
@@ -60,6 +67,38 @@ public class SampleDataListFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
+                R.animator.escape_up);
+        set.setTarget(binding.sampleListFab);
+        set.start();
+        binding.sampleListFab.setOnTouchListener(new View.OnTouchListener() {
+            float start_x = 0;
+            float old_x = 0;
+            float new_x = 0;
+            float start_y;
+            float old_y;
+            float new_y;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (start_x == 0 && start_y == 0) {
+                    start_x = event.getRawX();
+                    start_y = event.getRawY();
+                }
+                new_x = event.getRawX();
+                new_y = event.getRawY();
+                float diff_x = new_x - old_x;
+                float total_x = new_x - start_x;
+                float total_y = new_y - start_y;
+                System.out.println("start=" + start_x + ", new=" + new_x + ", total=" + total_x);
+                v.setTranslationX(total_x);
+                v.setTranslationY(total_y);
+                return true;
+            }
+        });
+    }
 
     /**
      * カスタムセッター
