@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -83,6 +84,10 @@ public class SampleDataListFragment extends Fragment {
             float new_y;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action){
+                    case MotionEvent.ACTION_MOVE:
+                }
                 if (start_x == 0 && start_y == 0) {
                     start_x = event.getRawX();
                     start_y = event.getRawY();
