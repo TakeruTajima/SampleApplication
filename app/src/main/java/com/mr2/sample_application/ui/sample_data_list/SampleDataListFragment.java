@@ -84,9 +84,24 @@ public class SampleDataListFragment extends Fragment {
             float new_y;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action){
+                float down_x;
+                float down_y;
+                float trans_x;
+                float trans_y;
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        System.out.println("MotionEvent.ACTION_DOWN:");
+                        down_x = event.getRawX();
+                        down_y = event.getRawY();
+                        trans_x = v.getTranslationX();
+                        trans_y = v.getTranslationY();
+                        break;
                     case MotionEvent.ACTION_MOVE:
+//                        System.out.println("MotionEvent.ACTION_MOVE:");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        System.out.println("MotionEvent.ACTION_UP:");
+                        break;
                 }
                 if (start_x == 0 && start_y == 0) {
                     start_x = event.getRawX();
@@ -97,7 +112,7 @@ public class SampleDataListFragment extends Fragment {
                 float diff_x = new_x - old_x;
                 float total_x = new_x - start_x;
                 float total_y = new_y - start_y;
-                System.out.println("start=" + start_x + ", new=" + new_x + ", total=" + total_x);
+//                System.out.println("start=" + start_x + ", new=" + new_x + ", total=" + total_x);
                 v.setTranslationX(total_x);
                 v.setTranslationY(total_y);
                 return true;
