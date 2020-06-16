@@ -1,9 +1,9 @@
 package com.mr2.sample_application.ui.sample_data_list;
 
-import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,53 +73,7 @@ public class SampleDataListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
-                R.animator.escape_up);
-        set.setTarget(binding.sampleListFab);
-        set.start();
-        binding.sampleListFab.setOnTouchListener(new View.OnTouchListener() {
-            float start_x = 0;
-            float old_x = 0;
-            float new_x = 0;
-            float start_y;
-            float old_y;
-            float new_y;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                float down_x;
-                float down_y;
-                float trans_x;
-                float trans_y;
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        System.out.println("MotionEvent.ACTION_DOWN:");
-                        down_x = event.getRawX();
-                        down_y = event.getRawY();
-                        trans_x = v.getTranslationX();
-                        trans_y = v.getTranslationY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-//                        System.out.println("MotionEvent.ACTION_MOVE:");
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        System.out.println("MotionEvent.ACTION_UP:");
-                        break;
-                }
-                if (start_x == 0 && start_y == 0) {
-                    start_x = event.getRawX();
-                    start_y = event.getRawY();
-                }
-                new_x = event.getRawX();
-                new_y = event.getRawY();
-                float diff_x = new_x - old_x;
-                float total_x = new_x - start_x;
-                float total_y = new_y - start_y;
-//                System.out.println("start=" + start_x + ", new=" + new_x + ", total=" + total_x);
-                v.setTranslationX(total_x);
-                v.setTranslationY(total_y);
-                return true;
-            }
-        });
+        binding.sampleListFab.setOnTouchListener(new ViewDiffMover(ViewDiffMover.TYPE_DOWN_ONLY));
     }
 
     /**
@@ -150,6 +106,85 @@ public class SampleDataListFragment extends Fragment {
         if (adapter instanceof SamplePagedListAdapter) {
             SamplePagedListAdapter<SampleListData> adapter1 = SamplePagedListAdapter.avoidingUntestedCasts(adapter);
             adapter1.submitList(list);
+        }
+    }
+
+    public static class ViewDiffMover implements View.OnTouchListener{
+        public static final int TYPE_DOWN_ONLY = 0;
+        public static final int TYPE_UP_ONLY = 1;
+        public static final int ORIENTATION_HORIZONTAL = 2;
+        static final float MOVE_BOUNDARY = 500;
+
+        final float up_limit;
+        final float down_limit;
+        final float left_limit;
+        final float right_limit;
+
+        public ViewDiffMover(int type){
+            switch (type){
+                case TYPE_DOWN_ONLY:
+                    up_limit = 0;
+                    down_limit = Float.MAX_VALUE;
+                    left_limit = 0;
+                    right_limit = 0;
+                    break;
+                default:
+                    up_limit = Float.MIN_VALUE;
+                    down_limit = Float.MAX_VALUE;
+                    left_limit = Float.MIN_VALUE;
+                    right_limit = Float.MAX_VALUE;
+                    break;
+            }
+        }
+
+        public ViewDiffMover(float up_limit, float down_limit, float left_limit, float right_limit) {
+            this.up_limit = up_limit;
+            this.down_limit = down_limit;
+            this.left_limit = left_limit;
+            this.right_limit = right_limit;
+        }
+
+        float down_x = 0;
+        float down_y = 0;
+        float diff_x = 0;
+        float diff_y = 0;
+        float trans_x = 0;
+        float trans_y = 0;
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+//                    System.out.println("MotionEvent.ACTION_DOWN:");
+                    down_x = event.getRawX();
+                    down_y = event.getRawY();
+                    trans_x = v.getTranslationX();
+                    trans_y = v.getTranslationY();
+//                    System.out.println("downx:" + down_x + " ,downy:" + down_y + " ,diffx:" + diff_x + " ,diffy:" + diff_y + " ,transx:" + trans_x + " ,transy:" + trans_y);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+//                        System.out.println("MotionEvent.ACTION_MOVE:");
+                    diff_x = event.getRawX() - down_x;
+                    diff_y = event.getRawY() - down_y;
+                    float move_x = (right_limit < diff_x ? right_limit : Math.max(left_limit, diff_x));
+                    float move_y = (down_limit < diff_y ? down_limit : Math.max(up_limit, diff_y));
+                    v.setTranslationX(trans_x + move_x);
+                    v.setTranslationY(trans_y + move_y);
+                    break;
+                case MotionEvent.ACTION_UP:
+//                    System.out.println("MotionEvent.ACTION_UP:");
+                    if ((-MOVE_BOUNDARY <= diff_x && diff_x <= MOVE_BOUNDARY) && (-MOVE_BOUNDARY <= diff_y && diff_y <= MOVE_BOUNDARY))
+                    {
+                        PropertyValuesHolder holderX = PropertyValuesHolder.ofFloat("translationX", trans_x);
+                        PropertyValuesHolder holderY = PropertyValuesHolder.ofFloat("translationY", trans_y);
+                        ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(v, holderX, holderY);
+                        anim.setDuration(400);
+                        anim.start();
+                    }
+//                    System.out.println("downx:" + down_x + " ,downy:" + down_y + " ,diffx:" + diff_x + " ,diffy:" + diff_y + " ,transx:" + trans_x + " ,transy:" + trans_y);
+                    break;
+            }
+            return false;
         }
     }
 }
