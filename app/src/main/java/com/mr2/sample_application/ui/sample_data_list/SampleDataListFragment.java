@@ -1,18 +1,14 @@
 package com.mr2.sample_application.ui.sample_data_list;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +23,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mr2.my_genelic_ui_library.dialog.PromptDialogFragment;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.SampleDataListFragmentBinding;
@@ -60,9 +57,8 @@ public class SampleDataListFragment extends Fragment {
 
         binding.setLifecycleOwner(this);
         binding.setVm(viewModel);
-        binding.sampleListFab.setOnClickListener(v -> {
-//            viewModel.addItem();
-        });
+        binding.sampleListFab.setOnClickListener(this::showAddItemDialog);
+        //            viewModel.addItem();
         viewModel.listLiveData.observe(getViewLifecycleOwner(), sampleListData -> {
             if (null != sampleListData)
             viewModel.liveListSize.postValue(sampleListData.getLoadedCount());
@@ -70,11 +66,27 @@ public class SampleDataListFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        binding.sampleListFab.setOnTouchListener(new ViewDiffMover(ViewDiffMover.TYPE_DOWN_ONLY));
+    private void showAddItemDialog(View view){
+        String title = "Create item";
+        String positive = "Create";
+        PromptDialogFragment dialog = new PromptDialogFragment.Builder(title, positive)
+                .setHint("ex) additional item")
+                .setMessage("Please input new item name.")
+                .setNegativeButton("Cancel")
+                .setListener((dialog1, which, input) -> {
+                    if (DialogInterface.BUTTON_POSITIVE == which){
+                        viewModel.addItem(input);
+                    }
+                    if (null != dialog1) dialog1.dismiss();
+                }).create();
+        dialog.show(getChildFragmentManager(), "ADD_ITEM_DIALOG");
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        binding.sampleListFab.setOnTouchListener(new ViewDiffMover(ViewDiffMover.TYPE_DOWN_ONLY));
+//    }
 
     /**
      * カスタムセッター

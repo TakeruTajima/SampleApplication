@@ -2,8 +2,12 @@ package com.mr2.my_genelic_ui_library.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -70,6 +74,15 @@ public class PromptDialogFragment extends DialogFragment {
         if (null != message) builder.setMessage(message);
         if (null != hint) editText.setHint(hint);
         if (null !=  defaultText) editText.setText(defaultText);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                    listener.onDialogResult(getDialog(), DialogInterface.BUTTON_POSITIVE, ((EditText)v).getText().toString());
+                }
+                return false;
+            }
+        });
         builder.setView(editText);
         if (null != negative) builder.setNegativeButton(negative, (dialog, which) ->
                 listener.onDialogResult(dialog, which, editText.getText().toString()));
@@ -77,7 +90,15 @@ public class PromptDialogFragment extends DialogFragment {
                 listener.onDialogResult(dialog, which, editText.getText().toString()));
         builder.setPositiveButton(positive, (dialog, which) ->
                 listener.onDialogResult(dialog, which, editText.getText().toString()));
-        return builder.create();
+        final AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialog1 -> {
+            Context context = getContext();
+            if (null == context) return;
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (null == imm || !editText.requestFocus()) return;
+            imm.showSoftInput(editText, 0);
+        });
+        return dialog;
     }
 
     public void setOnDialogResultListener(OnDialogResultListener listener) {

@@ -48,6 +48,15 @@ public class SampleDataListViewModel extends AndroidViewModel {
         });
     }
 
+    public void addItem(String itemName){
+        Executors.ioThread(()->{
+            if (null == itemName || 0 == itemName.length()) return;
+            app.db.sampleDao().insert(
+                    new SampleListData(itemName)
+            );
+        });
+    }
+
     //　以下はLiveDataから直接参照してないのでObserveできない？
 //    public String getIsLoadFinished(){ return (null == isLoadFinished.getValue()) ? null : isLoadFinished.getValue().toString(); }
 }
