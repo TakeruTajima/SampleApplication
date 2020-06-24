@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.mr2.sample_application.ui.live_dialog.LiveDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/liveDialogEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={vm.editText}"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
+    </LinearLayout>
+</layout>

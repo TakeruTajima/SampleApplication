@@ -16,6 +16,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DiffUtil;
@@ -27,10 +28,13 @@ import com.mr2.my_genelic_ui_library.dialog.PromptDialogFragment;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.SampleDataListFragmentBinding;
+import com.mr2.sample_application.ui.live_dialog.LiveDialogFragment;
+import com.mr2.sample_application.ui.live_dialog.LiveDialogState;
+import com.mr2.sample_application.ui.live_dialog.LiveDialogViewModel;
 
 public class SampleDataListFragment extends Fragment {
     private SampleDataListViewModel viewModel;
-    private SampleDataListFragmentBinding binding;
+    private LiveDialogViewModel dialogViewModel;
 
     public static SampleDataListFragment newInstance() {
 
@@ -48,39 +52,57 @@ public class SampleDataListFragment extends Fragment {
         viewModel = new ViewModelProvider
                 .AndroidViewModelFactory(getActivity().getApplication())
                 .create(SampleDataListViewModel.class);
+        dialogViewModel = new ViewModelProvider(this, getDefaultViewModelProviderFactory())
+                .get(LiveDialogViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.sample_data_list_fragment, container, false);
-
+        com.mr2.sample_application.databinding.SampleDataListFragmentBinding binding
+                = DataBindingUtil.inflate(inflater, R.layout.sample_data_list_fragment, container, false);
         binding.setLifecycleOwner(this);
         binding.setVm(viewModel);
-        binding.sampleListFab.setOnClickListener(this::showAddItemDialog);
-        //            viewModel.addItem();
-        viewModel.listLiveData.observe(getViewLifecycleOwner(), sampleListData -> {
-            if (null != sampleListData)
-            viewModel.liveListSize.postValue(sampleListData.getLoadedCount());
+        binding.sampleListFab.setOnClickListener(view -> {
+            LiveDialogFragment dialog = LiveDialogFragment.newInstance("test title", "test message");
+            dialog.show(getChildFragmentManager(), "");
         });
+//        viewModel.listLiveData.observe(getViewLifecycleOwner(), sampleListData -> {
+//            if (null != sampleListData)
+//            viewModel.liveListSize.postValue(sampleListData.getLoadedCount());
+//        });　//listの変更タイミングの関係でうまく動かない
+        dialogViewModel.state.observe(getViewLifecycleOwner(), liveDialogState -> {
+            switch (liveDialogState){
+                case OK:
+                    String s = dialogViewModel.editText.getValue();
+                    viewModel.addItem(s);
+                    dialogViewModel.editText.postValue("");
+                    break;
+                case CANCEL:
+                    break;
+            }
+        });
+//        dialogViewModel.editText.observe(getViewLifecycleOwner(), str ->{
+//            System.out.println(str); //入力ルールの表示とか強制とかできるよ
+//        });
         return binding.getRoot();
     }
 
-    private void showAddItemDialog(View view){
-        String title = "Create item";
-        String positive = "Create";
-        PromptDialogFragment dialog = new PromptDialogFragment.Builder(title, positive)
-                .setHint("ex) additional item")
-                .setMessage("Please input new item name.")
-                .setNegativeButton("Cancel")
-                .setListener((dialog1, which, input) -> {
-                    if (DialogInterface.BUTTON_POSITIVE == which){
-                        viewModel.addItem(input);
-                    }
-                    if (null != dialog1) dialog1.dismiss();
-                }).create();
-        dialog.show(getChildFragmentManager(), "ADD_ITEM_DIALOG");
-    }
+//    private void showAddItemDialog(View view){
+//        String title = "Create item";
+//        String positive = "Create";
+//        PromptDialogFragment dialog = new PromptDialogFragment.Builder(title, positive)
+//                .setHint("ex) additional item")
+//                .setMessage("Please input new item name.")
+//                .setNegativeButton("Cancel")
+//                .setListener((dialog1, which, input) -> {
+//                    if (DialogInterface.BUTTON_POSITIVE == which){
+//                        viewModel.addItem(input);
+//                    }
+//                    if (null != dialog1) dialog1.dismiss();
+//                }).create();
+//        dialog.show(getChildFragmentManager(), "ADD_ITEM_DIALOG");
+//    }
 
 //    @Override
 //    public void onResume() {

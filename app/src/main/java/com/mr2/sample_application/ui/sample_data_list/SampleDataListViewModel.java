@@ -20,7 +20,7 @@ import com.mr2.sample_application.MyApplication;
 
 public class SampleDataListViewModel extends AndroidViewModel {
     private final MyApplication app;
-    public LiveData<PagedList<SampleListData>> listLiveData /* = new MutableLiveData<>()*/;
+    public LiveData<PagedList<SampleListData>> listLiveData;
     public MutableLiveData<Boolean> isLoadFinished = new MutableLiveData<>(false);
     public MutableLiveData<Integer> liveListSize = new MutableLiveData<>();
 
