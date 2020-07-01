@@ -16,8 +16,8 @@ public class Price extends ValueObject{
     }
 
     public Price(float value, @NonNull String currency) {
-        guarantee(validateValue(value));
-        guarantee(validateCurrency(currency));
+        guarantee(validateValue(value), "不変条件に違反しています。 arg: value = " + value);
+        guarantee(validateCurrency(currency), "不変条件に違反しています。 arg: currency = " + currency);
         this.value = value;
         this.currency = currency;
     }
@@ -34,5 +34,13 @@ public class Price extends ValueObject{
     @Override
     public int hashCode() {
         return Objects.hash(value, currency);
+    }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "value=" + value +
+                ", currency='" + currency + '\'' +
+                '}';
     }
 }

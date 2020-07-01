@@ -58,7 +58,7 @@ public abstract class AssertionConcern {
         return Pattern.matches("^[0-9a-zA-Z]+$", aString);
     }
 
-    protected static void guarantee(boolean bool){
-        if (!bool) throw new IllegalArgumentException("不変条件に違反しています");
+    protected static void guarantee(boolean bool, String message){
+        if (!bool) throw new IllegalArgumentException(message);
     }
 }

@@ -25,10 +25,10 @@ public class ItemListViewModel extends AndroidViewModel {
     }
 
     public void fetchItemList(){
-        new Thread(() ->{
-            DataSource.Factory<Integer, ItemHeadlineDto> factory
-                    = app.component.getObserverService().getItemList();
-            pagedList = new LivePagedListBuilder(factory, 10).build();
-        }).start();
+//        new Thread(() ->{
+//            DataSource.Factory<Integer, ItemHeadlineDto> factory
+//                    = app.component.getObserverService().getItemList();
+//            pagedList = new LivePagedListBuilder(factory, 10).build();
+//        }).start();
     }
 }
