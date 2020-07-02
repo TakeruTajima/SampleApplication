@@ -1,10 +1,11 @@
 package com.mr2.sample_app_domain.parts;
 
 public interface PartsRepository {
-    void save(Parts parts);
+    void store(Parts parts);
     Parts get(int id);
     void remove(Parts parts);
     void removeAll();
+    String getSampleItemName(int id);
 }
 
 // 新しい集約をデータベースに追加する

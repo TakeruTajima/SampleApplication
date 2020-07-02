@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Parts extends AbstractEntity {
 
     //新規
-    Parts(String name, String model, String maker, Price value, String unit) {
+    public Parts(String name, String model, String maker, Price value, String unit) {
         super(INITIAL_VERSION, INITIAL_ID); // uuid???
         guarantee(validateName(name), "不変条件に違反しています。 arg: name = " + name);
         guarantee(validateModel(model), "不変条件に違反しています。 arg: model = " + model);
@@ -23,9 +23,10 @@ public class Parts extends AbstractEntity {
         this.value = value;
         this.unit = unit;
     }
+    // 集約の生成
 
     //読み出し
-    Parts(int version, int id, String name, String model, String maker, Price value, String unit) {
+    public Parts(int version, int id, String name, String model, String maker, Price value, String unit) {
         super(version, id);
         this.name = name;
         this.model = model;
