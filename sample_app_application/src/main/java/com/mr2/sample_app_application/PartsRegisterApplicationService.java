@@ -19,11 +19,13 @@ public class PartsRegisterApplicationService {
     }
 
     public void registerNewParts(String name, String model, String maker, int price, String currency, String unit){
+        //ここいらでメーカーと型式の一意性チェック必要
+
         Parts parts = new Parts(name, model, maker, new Price(price, currency), unit);
         repository.store(parts);
     }
 
-    public String getNamePresentationTest(int id){
+    public String mockTest(int id){
         return "name: " + repository.get(id).getName();
     }
 

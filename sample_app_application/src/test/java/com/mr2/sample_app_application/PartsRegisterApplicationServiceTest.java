@@ -44,7 +44,7 @@ public class PartsRegisterApplicationServiceTest {
         Random rand = new Random();
         rand.nextInt();
         service = new PartsRegisterApplicationService(stubRepo);
-        assertEquals(service.getNamePresentationTest(testId), "name: testItem");
+        assertEquals(service.mockTest(testId), "name: testItem");
     }
 
     @Test

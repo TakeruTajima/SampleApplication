@@ -5,7 +5,8 @@ public interface PartsRepository {
     Parts get(int id);
     void remove(Parts parts);
     void removeAll();
-    String getSampleItemName(int id);
+
+    Parts findOne(String maker, String model);
 }
 
 // 新しい集約をデータベースに追加する
