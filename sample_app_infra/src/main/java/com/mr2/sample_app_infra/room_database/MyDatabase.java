@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import com.mr2.sample_app_infra.observer.ListDataSourceDao;
 import com.mr2.sample_app_infra.room_database.items.ItemDao;
 import com.mr2.sample_app_infra.room_database.items.ItemEntity;
+import com.mr2.sample_app_infra.room_database.parts.PartsDao;
+import com.mr2.sample_app_infra.room_database.parts.PartsEntity;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleDao;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
 import com.mr2.sample_app_infra.room_database.users.UserDao;
@@ -18,7 +20,13 @@ import com.mr2.sample_app_infra.room_database.users_items.UserItemDao;
 
 import java.util.List;
 
-@Database(entities = {UserEntity.class, ItemEntity.class, UserItemEntity.class, SampleListData.class}, version = 1, exportSchema = true)
+@Database(entities = {
+        PartsEntity.class,
+        UserEntity.class,
+        ItemEntity.class,
+        UserItemEntity.class,
+        SampleListData.class},
+        version = 1, exportSchema = true)
 public abstract class MyDatabase extends RoomDatabase {
     private static MyDatabase instance;
 
@@ -47,4 +55,5 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract UserItemDao userItemDao();
     public abstract ListDataSourceDao userListDao();
     public abstract SampleDao sampleDao();
+    public abstract PartsDao partsDao();
 }

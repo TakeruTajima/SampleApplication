@@ -1,5 +1,6 @@
 package com.mr2.sample_app_application;
 
+import com.mr2.sample_app_application.parts_register.PartsRegisterApplicationService;
 import com.mr2.sample_app_domain.parts.Parts;
 import com.mr2.sample_app_domain.parts.PartsRepository;
 
@@ -13,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Random;
+import java.util.Optional;
 //import static org.mockito.Mockito.when;
 
 public class PartsRegisterApplicationServiceTest {
@@ -40,11 +41,11 @@ public class PartsRegisterApplicationServiceTest {
         Parts stubParts = Mockito.mock(Parts.class);
         Mockito.when(stubParts.getName()).thenReturn("testItem");
 
-        Mockito.when(stubRepo.get(testId)).thenReturn(stubParts);
-        Random rand = new Random();
-        rand.nextInt();
+        Mockito.when(stubRepo.get(testId)).thenReturn(java.util.Optional.of(stubParts));
+        Mockito.when(stubRepo.get(testId + 1)).thenReturn(Optional.empty());
         service = new PartsRegisterApplicationService(stubRepo);
         assertEquals(service.mockTest(testId), "name: testItem");
+        assertEquals(service.mockTest(testId + 1), "missing item");
     }
 
     @Test

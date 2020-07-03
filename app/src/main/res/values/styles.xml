@@ -1,4 +1,5 @@
-<resources>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -6,6 +7,30 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextViewPrimary" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/sizeTextPrimary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="TextViewSecondary" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/sizeTextSecondary</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="TextViewNotice" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/sizeTextMinimum</item>
+        <item name="android:textColor">@color/colorTextNotice</item>
+    </style>
+
+    <style name="MyCardViewStyle" parent="CardView">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="contentPadding">8dp</item>
     </style>
 
 </resources>
