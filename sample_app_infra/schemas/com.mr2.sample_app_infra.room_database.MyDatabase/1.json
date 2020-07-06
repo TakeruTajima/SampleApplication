@@ -2,8 +2,80 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c5c3d80cd78c9e6765d26af52e52572a",
+    "identityHash": "d5444d009ee34b3cb51306f9e6cc666b",
     "entities": [
+      {
+        "tableName": "parts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`version` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `model` TEXT, `maker` TEXT, `price_value` REAL NOT NULL, `price_currency` TEXT, `unit` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "maker",
+            "columnName": "maker",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "price_value",
+            "columnName": "price_value",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price_currency",
+            "columnName": "price_currency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unit",
+            "columnName": "unit",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_parts_model_maker",
+            "unique": true,
+            "columnNames": [
+              "model",
+              "maker"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_parts_model_maker` ON `${TABLE_NAME}` (`model`, `maker`)"
+          }
+        ],
+        "foreignKeys": []
+      },
       {
         "tableName": "users",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` TEXT NOT NULL, `code` TEXT NOT NULL, `first_name` TEXT NOT NULL, `middle_name` TEXT NOT NULL, `family_name` TEXT NOT NULL, PRIMARY KEY(`_id`))",
@@ -142,7 +214,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c5c3d80cd78c9e6765d26af52e52572a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d5444d009ee34b3cb51306f9e6cc666b\")"
     ]
   }
 }

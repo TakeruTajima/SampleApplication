@@ -1,5 +1,6 @@
 package com.mr2.sample_app_infra.observer;
 
+import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Query;
@@ -39,4 +40,10 @@ public interface ListDataSourceDao {
             "inner join users_items as ui on i._id = item_id " +
             "group by item_id;")
     DataSource.Factory<Integer, ItemHeadlineDto> getItemListSource();
+
+    @Query("select " +
+            "maker as name " +
+            "from parts " +
+            "order by name asc")
+    LiveData<MakerListDto> getMakerListSource();
 }

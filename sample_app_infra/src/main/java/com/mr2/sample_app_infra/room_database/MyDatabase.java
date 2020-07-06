@@ -53,7 +53,7 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract ItemDao itemDao();
     public abstract UserItemDao userItemDao();
-    public abstract ListDataSourceDao userListDao();
+    public abstract ListDataSourceDao listDataSourceDao();
     public abstract SampleDao sampleDao();
     public abstract PartsDao partsDao();
 }

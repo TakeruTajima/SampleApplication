@@ -1,10 +1,13 @@
 package com.mr2.sample_app_infra.room_database.parts;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.mr2.sample_app_infra.observer.MakerListDto;
 
 import java.util.List;
 
@@ -31,7 +34,7 @@ public interface PartsDao {
             "maker = :maker," +
             "price_value = :price_value," +
             "price_currency = :price_currency," +
-            "unit = unit " +
+            "unit = :unit " +
             "where id = :id and version = :version")
     void update(int version, int id,
                 String name,
@@ -40,4 +43,10 @@ public interface PartsDao {
                 float price_value,
                 String price_currency,
                 String unit);
+
+    @Query("select " +
+            "maker as name " +
+            "from parts " +
+            "order by name asc")
+    LiveData<List<MakerListDto>> getMakerList();
 }
