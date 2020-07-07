@@ -1,6 +1,6 @@
 package com.mr2.sample_application.ui.live_dialog;
 
-import android.app.AlertDialog;
+//import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,10 +10,12 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.FragmentLiveDialogBinding;
 
 public class LiveDialogFragment extends DialogFragment {
@@ -48,12 +50,12 @@ public class LiveDialogFragment extends DialogFragment {
         String title = args.getString(KEY_TITLE);
         String message = args.getString(KEY_MESSAGE);
         /* building dialog */
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.ThemeOverlay_Sample_Dialog_Alert);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setView(binding.getRoot());
         binding.liveDialogEditText.setHint("hint: xxxx");
-        builder.setPositiveButton("OK", LISTENER);
+        builder.setPositiveButton("OK", LISTENER); //TODO: ボタンのBackgroundColorが@color/colorPrimary
         builder.setNegativeButton("cancel", LISTENER);
         return builder.create();
     }

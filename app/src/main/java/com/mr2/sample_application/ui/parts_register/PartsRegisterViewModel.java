@@ -40,4 +40,8 @@ public class PartsRegisterViewModel extends AndroidViewModel {
             doneBaseInfo.postValue(true);
         }else doneBaseInfo.postValue(false);
     }
+
+    public void createParts() {
+
+    }
 }

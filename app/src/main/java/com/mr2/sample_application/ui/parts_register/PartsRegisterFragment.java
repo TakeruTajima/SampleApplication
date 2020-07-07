@@ -1,25 +1,24 @@
 package com.mr2.sample_application.ui.parts_register;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.databinding.adapters.AutoCompleteTextViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.mr2.sample_app_domain.parts.Parts;
 import com.mr2.sample_app_infra.observer.MakerListDto;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.FragmentPartsRegisterBinding;
@@ -45,6 +44,28 @@ public class PartsRegisterFragment extends Fragment {
         vm = new ViewModelProvider
                 .AndroidViewModelFactory(Objects.requireNonNull(getActivity()).getApplication())
                 .create(PartsRegisterViewModel.class);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.option, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                getParentFragmentManager().popBackStack();
+                break;
+            case R.id.menu_save:
+                vm.createParts();
+                Toast.makeText(getContext(), "保存されました", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable

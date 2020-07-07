@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -33,4 +33,20 @@
         <item name="contentPadding">8dp</item>
     </style>
 
+<!--    Dialog negative button-->
+    <style name="Widget.Sample.Button.ButtonBar.AlertDialog.Negative" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+    <style name="ThemeOverlay.Sample.Dialog.Alert" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">
+            @style/Widget.Sample.Button.ButtonBar.AlertDialog.Negative
+        </item>
+    </style>
+
+<!--    toolbar-->
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
+<!--        <item name="android:background">@color/colorPrimary</item>-->
+        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+    </style>
 </resources>

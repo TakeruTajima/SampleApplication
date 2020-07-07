@@ -3,7 +3,6 @@ package com.mr2.sample_application.ui.sample_data_list;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +15,6 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DiffUtil;
@@ -24,12 +22,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mr2.my_genelic_ui_library.dialog.PromptDialogFragment;
 import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
 import com.mr2.sample_application.R;
-import com.mr2.sample_application.databinding.SampleDataListFragmentBinding;
 import com.mr2.sample_application.ui.live_dialog.LiveDialogFragment;
-import com.mr2.sample_application.ui.live_dialog.LiveDialogState;
 import com.mr2.sample_application.ui.live_dialog.LiveDialogViewModel;
 
 public class SampleDataListFragment extends Fragment {

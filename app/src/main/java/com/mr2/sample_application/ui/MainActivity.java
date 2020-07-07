@@ -2,7 +2,9 @@ package com.mr2.sample_application.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.ui.parts_register.PartsRegisterFragment;
@@ -15,7 +17,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        if (savedInstanceState == null) {
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+//        if (savedInstanceState == null)
+        {
+            setSampleListFragment();
             setPartsRegisterFragment();
         }
     }
@@ -23,8 +29,16 @@ public class MainActivity extends AppCompatActivity {
     private void setSampleListFragment(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, SampleDataListFragment.newInstance())
-                .addToBackStack("")
+//                .addToBackStack("")
                 .commit();
+
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar){
+            actionBar.setTitle("部品リスト");
+//            actionBar.setSubtitle("新規登録");
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeButtonEnabled(false);
+        }
     }
 
     private void setPartsRegisterFragment(){
@@ -32,5 +46,17 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.container, PartsRegisterFragment.newInstance())
                 .addToBackStack("")
                 .commit();
+
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar){
+            actionBar.setTitle("部品情報");
+            actionBar.setSubtitle("新規登録");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+    }
+
+    private void setNavigation(){
+//        getNavController()
     }
 }
