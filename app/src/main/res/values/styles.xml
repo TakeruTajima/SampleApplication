@@ -1,5 +1,4 @@
-<resources
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -33,20 +32,30 @@
         <item name="contentPadding">8dp</item>
     </style>
 
-<!--    Dialog negative button-->
+    <!--    Dialog negative button-->
     <style name="Widget.Sample.Button.ButtonBar.AlertDialog.Negative" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/colorTextSecondary</item>
     </style>
+
     <style name="ThemeOverlay.Sample.Dialog.Alert" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarNegativeButtonStyle">
             @style/Widget.Sample.Button.ButtonBar.AlertDialog.Negative
         </item>
     </style>
 
-<!--    toolbar-->
+    <!--    toolbar-->
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
-<!--        <item name="android:background">@color/colorPrimary</item>-->
+        <!--        <item name="android:background">@color/colorPrimary</item>-->
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

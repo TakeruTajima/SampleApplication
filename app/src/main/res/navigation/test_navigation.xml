@@ -3,11 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/test_navigation"
-    app:startDestination="@id/mainActivity">
-
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.mr2.sample_application.ui.MainActivity"
-        android:label="main_activity"
-        tools:layout="@layout/main_activity" />
+    app:startDestination="@id/hostFragment">
+    <fragment
+        android:id="@+id/hostFragment"
+        android:name="com.mr2.sample_application.HostFragment"
+        android:label="fragment_host"
+        tools:layout="@layout/fragment_host" />
+    <fragment
+        android:id="@+id/sampleDataListFragment"
+        android:name="com.mr2.sample_application.ui.sample_data_list.SampleDataListFragment"
+        android:label="SampleDataListFragment" >
+        <action
+            android:id="@+id/action_sampleDataListFragment_to_partsRegisterFragment"
+            app:destination="@id/partsRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/partsRegisterFragment"
+        android:name="com.mr2.sample_application.ui.parts_register.PartsRegisterFragment"
+        android:label="PartsRegisterFragment" />
 </navigation>
