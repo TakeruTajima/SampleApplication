@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/test_navigation"
-    app:startDestination="@id/hostFragment">
-    <fragment
-        android:id="@+id/hostFragment"
-        android:name="com.mr2.sample_application.HostFragment"
-        android:label="fragment_host"
-        tools:layout="@layout/fragment_host" />
+    app:startDestination="@id/sampleDataListFragment">
     <fragment
         android:id="@+id/sampleDataListFragment"
         android:name="com.mr2.sample_application.ui.sample_data_list.SampleDataListFragment"
         android:label="SampleDataListFragment" >
         <action
             android:id="@+id/action_sampleDataListFragment_to_partsRegisterFragment"
-            app:destination="@id/partsRegisterFragment" />
+            app:destination="@id/partsRegisterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/partsRegisterFragment"
