@@ -20,7 +20,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/navigation_menu" />
+<!--        app:menu="@menu/activity_main_drawer" />-->
+
 <!--    NavigationViewは一番下に。   -->
 <!--    > NavigationViewは入力を受け取るために他のコントロールの一番上になければなりません。
         > XMLレイアウトファイル内のコントロールは、下から上に順番に並べられていますので、

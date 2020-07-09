@@ -16,6 +16,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.ActionOnlyNavDirections;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,6 +29,8 @@ import com.mr2.sample_app_infra.room_database.sample_list_data.SampleListData;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.ui.live_dialog.LiveDialogFragment;
 import com.mr2.sample_application.ui.live_dialog.LiveDialogViewModel;
+
+import java.util.Objects;
 
 public class SampleDataListFragment extends Fragment {
     private SampleDataListViewModel viewModel;
@@ -59,8 +64,13 @@ public class SampleDataListFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setVm(viewModel);
         binding.sampleListFab.setOnClickListener(view -> {
-            LiveDialogFragment dialog = LiveDialogFragment.newInstance("test title", "test message");
-            dialog.show(getChildFragmentManager(), "");
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            Bundle args = new Bundle();
+            args.putInt("partsId", 1);
+            navController.navigate(R.id.action_sampleDataListFragment_to_partsRegisterFragment, args);
+                // TODO: safeArgsについてもう少し調べる
+//            LiveDialogFragment dialog = LiveDialogFragment.newInstance("test title", "test message");
+//            dialog.show(getChildFragmentManager(), "");
         });
 //        viewModel.listLiveData.observe(getViewLifecycleOwner(), sampleListData -> {
 //            if (null != sampleListData)

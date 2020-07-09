@@ -19,6 +19,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mr2.sample_app_infra.observer.MakerListDto;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.FragmentPartsRegisterBinding;
@@ -42,7 +43,7 @@ public class PartsRegisterFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         vm = new ViewModelProvider
-                .AndroidViewModelFactory(Objects.requireNonNull(getActivity()).getApplication())
+                .AndroidViewModelFactory(requireActivity().getApplication())
                 .create(PartsRegisterViewModel.class);
         setHasOptionsMenu(true);
     }
@@ -61,8 +62,12 @@ public class PartsRegisterFragment extends Fragment {
                 getParentFragmentManager().popBackStack();
                 break;
             case R.id.menu_save:
+                Bundle args = getArguments();
+                int _id = Objects.requireNonNull(args).getInt("partsId");
+//                Snackbar.make(getView(), "Replace with your own action: " + _id, Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
                 vm.createParts();
-                Toast.makeText(getContext(), "保存されました", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "保存されました: id=" + _id, Toast.LENGTH_LONG).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

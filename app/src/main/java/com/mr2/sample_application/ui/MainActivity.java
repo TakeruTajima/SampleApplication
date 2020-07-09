@@ -16,14 +16,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        // Activityのレイアウト指定
+//        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main_nav);
+        // Toolbar セットアップ
+//        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // NavigationDrawer セットアップ
+        {}
+
 //        if (savedInstanceState == null)
-        {
-            setSampleListFragment();
-            setPartsRegisterFragment();
-        }
+//        {
+//            setSampleListFragment();
+//            setPartsRegisterFragment();
+//        }
     }
 
     private void setSampleListFragment(){

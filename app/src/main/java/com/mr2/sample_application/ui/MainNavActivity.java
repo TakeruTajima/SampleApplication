@@ -2,7 +2,6 @@ package com.mr2.sample_application.ui;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.mr2.sample_application.R;
 
 public class MainNavActivity extends AppCompatActivity {
@@ -43,11 +40,12 @@ public class MainNavActivity extends AppCompatActivity {
 //                //　tips:setActionの第2引数で任意のスナックバーのメッセージクリック時のアクションを設定できる
 //            }
 //        });
-
+        {}
         // NavigationDrawerのセットアップ
         DrawerLayout drawer = findViewById(R.id.drawer_layout); // DrawerLayoutを取得して
         mAppBarConfiguration = new AppBarConfiguration.Builder( // AppBarConfigurationをビルド
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.sampleDataListFragment)
+//        R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 // Passing each menu ID as a set of Ids because each
                 // menu should be considered as top level destinations.
                 // tips: 最上位のDestination(Fragment)のidを設定。
@@ -60,10 +58,10 @@ public class MainNavActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment); // NavControllerを取得して
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration); // ActionBarと
         NavigationUI.setupWithNavController(navigationView, navController); // ActionBarにNavControllerをセットアップ
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle( // sync drawer　ついでにバーガーアイコン動かしてみる
-                        this, drawer, toolbar, R.string.nav_app_bar_open_drawer_description, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState(); // TODO:画面遷移した後動かなくなる　謎
+//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle( // sync drawer　ついでにバーガーアイコン動かしてみる
+//                        this, drawer, toolbar, R.string.nav_app_bar_open_drawer_description, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(actionBarDrawerToggle);
+//        actionBarDrawerToggle.syncState(); // TODO:画面遷移した後動かなくなる　謎
     }
 
     @Override

@@ -19,5 +19,10 @@
     <fragment
         android:id="@+id/partsRegisterFragment"
         android:name="com.mr2.sample_application.ui.parts_register.PartsRegisterFragment"
-        android:label="PartsRegisterFragment" />
+        android:label="PartsRegisterFragment" >
+        <argument
+            android:name="partsId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
