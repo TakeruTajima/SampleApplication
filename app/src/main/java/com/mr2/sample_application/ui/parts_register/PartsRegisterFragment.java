@@ -19,13 +19,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.mr2.sample_app_infra.observer.MakerListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.FragmentPartsRegisterBinding;
 
 import java.util.List;
-import java.util.Objects;
 
 public class PartsRegisterFragment extends Fragment {
     private PartsRegisterViewModel vm;
@@ -63,10 +61,11 @@ public class PartsRegisterFragment extends Fragment {
                 break;
             case R.id.menu_save:
                 Bundle args = getArguments();
-                int _id = Objects.requireNonNull(args).getInt("partsId");
+                int _id = //Objects.requireNonNull(args).getInt("partsId");
+                PartsRegisterFragmentArgs.fromBundle(requireArguments()).getPartsId();
 //                Snackbar.make(getView(), "Replace with your own action: " + _id, Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                vm.createParts();
+                vm.onSaveClicked();
                 Toast.makeText(getContext(), "保存されました: id=" + _id, Toast.LENGTH_LONG).show();
                 break;
         }
@@ -80,9 +79,9 @@ public class PartsRegisterFragment extends Fragment {
                 DataBindingUtil.inflate(inflater, R.layout.fragment_parts_register, container, false);
         binding.setLifecycleOwner(this);
         binding.setVm(vm);
-        vm.maker.observe(getViewLifecycleOwner(), maker -> vm.onChangedMaker(maker));
-        vm.model.observe(getViewLifecycleOwner(), model -> vm.onChangedModel(model));
-        vm.doneBaseInfo.observe(getViewLifecycleOwner(), isDone ->
+        vm.maker.observe(getViewLifecycleOwner(), maker -> vm.onEdit());
+        vm.model.observe(getViewLifecycleOwner(), model -> vm.onEdit());
+        vm.isValidCoreInfo.observe(getViewLifecycleOwner(), isDone ->
                 binding.partsRegisterDone1.setVisibility(isDone ? View.VISIBLE : View.INVISIBLE));
 
         return binding.getRoot();

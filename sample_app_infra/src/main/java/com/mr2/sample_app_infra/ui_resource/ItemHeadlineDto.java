@@ -1,4 +1,4 @@
-package com.mr2.sample_app_infra.observer;
+package com.mr2.sample_app_infra.ui_resource;
 
 import java.util.Objects;
 

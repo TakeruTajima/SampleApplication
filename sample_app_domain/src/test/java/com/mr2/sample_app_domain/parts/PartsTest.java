@@ -48,8 +48,8 @@ public class PartsTest {
 
     @Test
     public void validateValue() {
-        assertTrue(Parts.validateValue(new Price(110, "yen")));
-        assertFalse(Parts.validateValue(null));
+        assertTrue(Parts.validateValue(new Price(110, "yen"), ));
+        assertFalse(Parts.validateValue(null, ));
     }
 
     @Test

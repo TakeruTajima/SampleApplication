@@ -1,4 +1,4 @@
-package com.mr2.sample_app_infra.observer;
+package com.mr2.sample_app_infra.ui_resource;
 
 import android.content.Context;
 
@@ -7,10 +7,10 @@ import androidx.paging.DataSource;
 import com.mr2.sample_app_infra.room_database.MyDatabase;
 
 
-public class ObserverService {
+public class ViewResourceService {
     private Context context;
 
-    public ObserverService(Context context) {
+    public ViewResourceService(Context context) {
         this.context = context;
     }
 

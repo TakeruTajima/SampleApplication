@@ -7,7 +7,9 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.mr2.sample_app_infra.observer.MakerListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.ModelListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
 
 import java.util.List;
 
@@ -44,9 +46,23 @@ public interface PartsDao {
                 String price_currency,
                 String unit);
 
+    //View resource queries.
     @Query("select " +
             "maker as name " +
             "from parts " +
             "order by name asc")
     LiveData<List<MakerListDto>> getMakerList();
+
+    @Query("select " +
+            "model as name " +
+            "from parts " +
+            "where maker like :maker " +
+            "order by name asc")
+    LiveData<List<ModelListDto>> getModelList(String maker);
+
+    @Query("select " +
+            "unit as name " +
+            "from parts " +
+            "order by name asc")
+    LiveData<List<UnitListDto>> getUnitList();
 }

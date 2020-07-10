@@ -7,22 +7,22 @@
     <fragment
         android:id="@+id/sampleDataListFragment"
         android:name="com.mr2.sample_application.ui.sample_data_list.SampleDataListFragment"
-        android:label="SampleDataListFragment" >
+        android:label="部品一覧">
         <action
             android:id="@+id/action_sampleDataListFragment_to_partsRegisterFragment"
             app:destination="@id/partsRegisterFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_to_right" />
     </fragment>
     <fragment
         android:id="@+id/partsRegisterFragment"
         android:name="com.mr2.sample_application.ui.parts_register.PartsRegisterFragment"
-        android:label="PartsRegisterFragment" >
+        android:label="部品編集">
         <argument
             android:name="partsId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -15,7 +15,7 @@ public class Parts extends AbstractEntity {
         guarantee(validateName(name), "不変条件に違反しています。 arg: name = " + name);
         guarantee(validateModel(model), "不変条件に違反しています。 arg: model = " + model);
         guarantee(validateMaker(maker), "不変条件に違反しています。 arg: maker = " + maker);
-        guarantee(validateValue(value), "不変条件に違反しています。 arg: value = " + value);
+//        guarantee(validateValue(value, ), "不変条件に違反しています。 arg: value = " + value);
         guarantee(validateUnit(unit), "不変条件に違反しています。 arg: unit" + unit);
         this.name = name;
         this.model = model;
@@ -55,9 +55,8 @@ public class Parts extends AbstractEntity {
     }
 
     private Price value;  // 管理単価(資産価値)
-    // ValueObjectは自身に不変条件を持つのでNullチェックのみ
-    public static boolean validateValue(Price value){
-        return null != value;
+    public static boolean validateValue(float value, String currency){
+        return Price.validateValue(value) && Price.validateCurrency(currency);
     }
 
     private String unit;  // 管理単位
@@ -74,7 +73,7 @@ public class Parts extends AbstractEntity {
 
     //単価を変更する
     public void changeValue(@NonNull Price newValue){
-        guarantee(validateValue(newValue), "不変条件に違反しています。 arg: newValue = " + newValue);
+//        guarantee(validateValue(newValue), "不変条件に違反しています。 arg: newValue = " + newValue);
         this.value = newValue;
     }
 

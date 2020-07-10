@@ -1,11 +1,11 @@
-package com.mr2.sample_app_infra.observer;
+package com.mr2.sample_app_infra.ui_resource;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import java.util.List;
+import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
 
 
 //import javax.sql.DataSource;

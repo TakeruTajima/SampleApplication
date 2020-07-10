@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.mr2.sample_app_infra.observer.ListDataSourceDao;
+import com.mr2.sample_app_infra.ui_resource.ListDataSourceDao;
 import com.mr2.sample_app_infra.room_database.items.ItemDao;
 import com.mr2.sample_app_infra.room_database.items.ItemEntity;
 import com.mr2.sample_app_infra.room_database.parts.PartsDao;
