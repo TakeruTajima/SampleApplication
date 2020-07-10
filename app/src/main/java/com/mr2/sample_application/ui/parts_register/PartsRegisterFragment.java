@@ -113,8 +113,8 @@ public class PartsRegisterFragment extends Fragment {
 //        textView.setAdapter(adapter);
 //    }
 
-    @BindingAdapter({"adapter"})
-    public static void setAutoCompleteAdapter(AutoCompleteTextView textView, List<SingleStringListResource> list){
+    @BindingAdapter({"autoCompleteAdapter"})
+    public static void autoCompleteAdapter(AutoCompleteTextView textView, List<SingleStringListResource> list){
         String[] con = new String[null == list ? 0 : list.size()];
         for (int i = 0; i < con.length; i++) {
             con[i] = list.get(i).value;
