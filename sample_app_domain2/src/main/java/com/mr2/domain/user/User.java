@@ -77,7 +77,7 @@ public class User {
 
     }
 
-    //UserCodeは重複が許されず、他の集約が関わってくるので、この操作はドメインサービスの責務に該当する。
+    
     void changeUserCode( UserCode newUserCode){
 //        this.userCode = newUserCode;
     }

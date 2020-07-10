@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public static void changeUserCode(UserQueryRepository qr, User user, UserCode newUserCode){
-        if (isDuplicationUserCode(qr, user._id(), newUserCode)) throw new IllegalArgumentException("重複しています");
+        if (isDuplicationUserCode(qr, user._id(), newUserCode)) throw new IllegalArgumentException("duplicated");
 //        user.changeUserCode(newUserCode);
     }
 }

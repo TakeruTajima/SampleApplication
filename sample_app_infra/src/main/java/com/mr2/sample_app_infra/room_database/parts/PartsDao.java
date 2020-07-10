@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.mr2.sample_app_infra.ui_resource.SingleStringListResource;
 import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.ModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
@@ -53,6 +54,9 @@ public interface PartsDao {
             "order by name asc")
     LiveData<List<MakerListDto>> getMakerList();
 
+    @Query("select unit as value from parts")
+    LiveData<List<SingleStringListResource>> getUnitList();
+
     @Query("select " +
             "distinct model as name " +
             "from parts " +
@@ -60,12 +64,15 @@ public interface PartsDao {
             "order by name asc")
     LiveData<List<ModelListDto>> getModelList(String maker);
 
-    @Query("select " +
-            "distinct unit as name " +
-            "from parts " +
-            "order by name asc")
-    LiveData<List<UnitListDto>> getUnitList();
 
     @Query("select * from parts")
     LiveData<List<PartsEntity>> findAll();
+
+
+    @Query("select * from parts")
+    List<PartsEntity> allList();
+
+//    @Query("insert into parts " +
+//            "values ('0', '0', '品名'+:id, 'model'+:id, 'メーカー'+:id, '100', 'yen', '箱')")
+//    void setDefaultParts(int id);
 }

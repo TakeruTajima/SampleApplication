@@ -201,7 +201,8 @@
                     android:ems="5"
                     android:hint="単位"
                     android:inputType="textPersonName"
-                    android:text="@={vm.unit}"/>
+                    android:text="@={vm.unit}"
+                    app:adapter="@{vm.unitList}"/>
 
                 <TextView
                     style="@style/TextViewSecondary"

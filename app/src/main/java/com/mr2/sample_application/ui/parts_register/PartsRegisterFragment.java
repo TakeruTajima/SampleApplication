@@ -19,7 +19,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.mr2.sample_app_infra.ui_resource.SingleStringListResource;
 import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
 import com.mr2.sample_application.R;
 import com.mr2.sample_application.databinding.FragmentPartsRegisterBinding;
 
@@ -97,6 +99,26 @@ public class PartsRegisterFragment extends Fragment {
             con[i] = list.get(i).name;
         }
 //        String[] con = {"あい","あいう","あいうえ","あいうえお","あいうえおか", "あいうえおかき","あいうえおかきく","あいうえおかきくけ","あいうえおかきくけこ"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(textView.getContext(), android.R.layout.simple_list_item_1, con);
+        textView.setAdapter(adapter);
+    }
+//
+//    @BindingAdapter({"suggestUnit"})
+//    public static void suggestUnit(AutoCompleteTextView textView, List<UnitListDto> list){
+//        String[] con = new String[null == list ? 0 : list.size()];
+//        for (int i = 0; i < con.length; i++) {
+//            con[i] = list.get(i).name;
+//        }
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(textView.getContext(), android.R.layout.simple_list_item_1, con);
+//        textView.setAdapter(adapter);
+//    }
+
+    @BindingAdapter({"adapter"})
+    public static void setAutoCompleteAdapter(AutoCompleteTextView textView, List<SingleStringListResource> list){
+        String[] con = new String[null == list ? 0 : list.size()];
+        for (int i = 0; i < con.length; i++) {
+            con[i] = list.get(i).value;
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(textView.getContext(), android.R.layout.simple_list_item_1, con);
         textView.setAdapter(adapter);
     }

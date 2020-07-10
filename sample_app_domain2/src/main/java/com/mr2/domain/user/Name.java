@@ -18,7 +18,7 @@ public class Name {
         this.middleName = (null != middleName ? middleName : "");
         this.familyName = (null != familyName ? familyName : "");
         if (-1 != invariantInspection(this.firstName, this.middleName, this.familyName))
-            throw new IllegalArgumentException("不変条件に違反しています。");
+            throw new IllegalArgumentException("Violates invariants.");
     }
 
     public String firstName() {

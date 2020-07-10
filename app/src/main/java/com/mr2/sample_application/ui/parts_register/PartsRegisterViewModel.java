@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.mr2.sample_app_domain.parts.Parts;
 import com.mr2.sample_app_infra.room_database.parts.PartsEntity;
+import com.mr2.sample_app_infra.ui_resource.SingleStringListResource;
 import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.ModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
@@ -37,14 +38,17 @@ public class PartsRegisterViewModel extends AndroidViewModel {
     public MutableLiveData<Boolean> isValidPartsName = new MutableLiveData<>(false);
     // info 2
     public MutableLiveData<String> unit = new MutableLiveData<>("");
-    public LiveData<List<UnitListDto>> unitList;
+    public LiveData<List<SingleStringListResource>> unitList;
     public MutableLiveData<Float> price = new MutableLiveData<>((float) 0);
     public MutableLiveData<Boolean> isValidPriceInfo = new MutableLiveData<>(false);
 
 
+    LiveData<List<PartsEntity>> l;
     public PartsRegisterViewModel(@NonNull Application application) {
         super(application);
         app = (MyApplication) application;
+
+//        setDefaultData();
 
         // suggest data
         Executors.ioThread(()->{
@@ -54,9 +58,26 @@ public class PartsRegisterViewModel extends AndroidViewModel {
             modelList = app.db.partsDao().getModelList(maker.getValue());
             System.out.println("load completed.");
         });
-        Executors.ioThread(() -> l = app.db.partsDao().findAll());
+//        Executors.ioThread(() -> l = app.db.partsDao().findAll());
+//        Executors.ioThread(()-> outState(app.db.partsDao().allList()));
     }
-    LiveData<List<PartsEntity>> l;
+
+    void setDefaultData(){
+        for (int i = 0; i < 30; i++) {
+            int m = i % 3;
+            PartsEntity e = new PartsEntity(
+                    0,
+                    0,
+                    "品名" + i,
+                    "model" + i,
+                    "maker" + m,
+                    100.0f * i,
+                    "yen",
+                    "U:" + m
+            );
+            Executors.ioThread(()-> app.db.partsDao().insert(e));
+        }
+    }
 
     public void outState(List<PartsEntity> partsEntity){
         if (null != partsEntity) {
@@ -70,6 +91,8 @@ public class PartsRegisterViewModel extends AndroidViewModel {
                                 "unit:" + entity.unit + "\n" +
                                 "price:" + entity.price_value + " " + entity.price_currency + "\n");
             }
+        }else {
+            System.out.println("partsEntityList is null");
         }
     }
 
@@ -98,15 +121,21 @@ public class PartsRegisterViewModel extends AndroidViewModel {
     }
 
     public void onSaveClicked() {
-        if(isValidCoreInfo.getValue() && isValidPartsName.getValue() && isValidPriceInfo.getValue()){
+        boolean coreInfo = false;
+        if (isValidCoreInfo.getValue() != null) coreInfo = isValidCoreInfo.getValue();
+        boolean partsName = false;
+        if (isValidPartsName.getValue() != null) partsName = isValidPartsName.getValue();
+        boolean priceInfo = false;
+        if (isValidPriceInfo.getValue() != null) priceInfo = isValidPriceInfo.getValue();
+        if(coreInfo && partsName && priceInfo){
             String s = "maker=" + maker.getValue() + "\n" +
                     " model=" + model.getValue() + "\n" +
                     " name=" + name.getValue() + "\n" +
                     " price=" + price.getValue() + CURRENT_CURRENCY + "/" + unit.getValue();
-            System.out.println();
+            System.out.println(s);
         }else {
             System.out.println("is not valid.");
         }
-        outState(l.getValue());
+//        outState(l.getValue());
     }
 }
