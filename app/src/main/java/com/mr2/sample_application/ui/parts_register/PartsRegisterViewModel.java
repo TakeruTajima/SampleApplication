@@ -1,6 +1,8 @@
 package com.mr2.sample_application.ui.parts_register;
 
 import android.app.Application;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,13 +10,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.mr2.sample_app_domain.parts.Parts;
+import com.mr2.sample_app_infra.room_database.parts.PartsEntity;
 import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.ModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
 import com.mr2.sample_application.Executors;
 import com.mr2.sample_application.MyApplication;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PartsRegisterViewModel extends AndroidViewModel {
     private MyApplication app;
@@ -26,6 +31,7 @@ public class PartsRegisterViewModel extends AndroidViewModel {
     public LiveData<List<ModelListDto>> modelList;
     public MutableLiveData<Boolean> isValidCoreInfo = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> isDuplicate = new MutableLiveData<>(false);
+
     // info 1
     public MutableLiveData<String> name = new MutableLiveData<>("");
     public MutableLiveData<Boolean> isValidPartsName = new MutableLiveData<>(false);
@@ -42,27 +48,65 @@ public class PartsRegisterViewModel extends AndroidViewModel {
 
         // suggest data
         Executors.ioThread(()->{
+//            l = app.db.partsDao().findAll();
+            unitList = app.db.partsDao().getUnitList();
             makerList = app.db.partsDao().getMakerList();
             modelList = app.db.partsDao().getModelList(maker.getValue());
-            unitList = app.db.partsDao().getUnitList();
+            System.out.println("load completed.");
         });
+        Executors.ioThread(() -> l = app.db.partsDao().findAll());
+    }
+    LiveData<List<PartsEntity>> l;
+
+    public void outState(List<PartsEntity> partsEntity){
+        if (null != partsEntity) {
+            for (PartsEntity entity : partsEntity) {
+                System.out.println(
+                        "id:" + entity.id + "\n" +
+                                "ver:" + entity.version + "\n" +
+                                "maker:" + entity.maker + "\n" +
+                                "model:" + entity.model + "\n" +
+                                "name:" + entity.name + "\n" +
+                                "unit:" + entity.unit + "\n" +
+                                "price:" + entity.price_value + " " + entity.price_currency + "\n");
+            }
+        }
     }
 
     public static final String CURRENT_CURRENCY = "円";
 
     public void onEdit() {
-        isValidCoreInfo.postValue(Parts.validateMaker(maker.getValue()) && Parts.validateModel(maker.getValue()));
+        modelList = app.db.partsDao().getModelList(maker.getValue());
+        isDuplicate.postValue(checkDup());
+        isValidCoreInfo.postValue(Parts.validateMaker(maker.getValue()) && Parts.validateModel(model.getValue()));
         isValidPartsName.postValue(Parts.validateName(name.getValue()));
-        float p = 0;
-        if (price.getValue() != null) p = price.getValue();
+        float p = (price.getValue() == null ? 0 : price.getValue());
         isValidPriceInfo.postValue(Parts.validateUnit(unit.getValue()) && Parts.validateValue(p, CURRENT_CURRENCY));
     }
 
-    public void onMakerEdit(){
-        modelList = app.db.partsDao().getModelList(maker.getValue());
+    private boolean checkDup(){
+        String m = model.getValue();
+        final List<ModelListDto> value = modelList.getValue();
+        if (null == value) return false;
+        for (ModelListDto modelListDto : value) {
+            if (null != modelListDto && modelListDto.name.equals(m)){
+                //duplicated
+                return true;
+            }
+        }
+        return false;
     }
 
     public void onSaveClicked() {
-
+        if(isValidCoreInfo.getValue() && isValidPartsName.getValue() && isValidPriceInfo.getValue()){
+            String s = "maker=" + maker.getValue() + "\n" +
+                    " model=" + model.getValue() + "\n" +
+                    " name=" + name.getValue() + "\n" +
+                    " price=" + price.getValue() + CURRENT_CURRENCY + "/" + unit.getValue();
+            System.out.println();
+        }else {
+            System.out.println("is not valid.");
+        }
+        outState(l.getValue());
     }
 }

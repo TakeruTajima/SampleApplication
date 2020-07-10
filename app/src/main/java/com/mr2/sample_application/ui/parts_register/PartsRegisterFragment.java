@@ -81,6 +81,9 @@ public class PartsRegisterFragment extends Fragment {
         binding.setVm(vm);
         vm.maker.observe(getViewLifecycleOwner(), maker -> vm.onEdit());
         vm.model.observe(getViewLifecycleOwner(), model -> vm.onEdit());
+        vm.name.observe(getViewLifecycleOwner(), model -> vm.onEdit());
+        vm.unit.observe(getViewLifecycleOwner(), model -> vm.onEdit());
+        vm.price.observe(getViewLifecycleOwner(), model -> vm.onEdit());
         vm.isValidCoreInfo.observe(getViewLifecycleOwner(), isDone ->
                 binding.partsRegisterDone1.setVisibility(isDone ? View.VISIBLE : View.INVISIBLE));
 
@@ -89,11 +92,11 @@ public class PartsRegisterFragment extends Fragment {
 
     @BindingAdapter({"suggestMaker"})
     public static void suggestMaker(AutoCompleteTextView textView, List<MakerListDto> list){
-//        String[] con = new String[null == list ? 0 : list.size()];
-//        for (int i = 0; i < con.length; i++) {
-//            con[i] = list.get(i).name;
-//        }
-        String[] con = {"あい","あいう","あいうえ","あいうえお","あいうえおか", "あいうえおかき","あいうえおかきく","あいうえおかきくけ","あいうえおかきくけこ"};
+        String[] con = new String[null == list ? 0 : list.size()];
+        for (int i = 0; i < con.length; i++) {
+            con[i] = list.get(i).name;
+        }
+//        String[] con = {"あい","あいう","あいうえ","あいうえお","あいうえおか", "あいうえおかき","あいうえおかきく","あいうえおかきくけ","あいうえおかきくけこ"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(textView.getContext(), android.R.layout.simple_list_item_1, con);
         textView.setAdapter(adapter);
     }

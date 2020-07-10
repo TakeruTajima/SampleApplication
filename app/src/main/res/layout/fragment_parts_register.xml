@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="vm"
             type="com.mr2.sample_application.ui.parts_register.PartsRegisterViewModel" />
@@ -39,7 +40,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        app:srcCompat="@drawable/ic_baseline_done_24" />
+                        app:srcCompat="@drawable/ic_baseline_done_24"
+                        />
 
                 </LinearLayout>
 
@@ -75,7 +77,9 @@
                         style="@style/TextViewNotice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="*既に登録されています" />
+                        android:text="*既に登録されています"
+                        android:visibility="@{vm.isDuplicate ? View.VISIBLE : View.GONE}" />
+<!--                    TODO-->
                 </LinearLayout>
 
                 <AutoCompleteTextView
@@ -131,7 +135,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        app:srcCompat="@drawable/ic_baseline_done_24" />
+                        app:srcCompat="@drawable/ic_baseline_done_24"
+                        android:visibility="@{vm.isValidPartsName ? View.VISIBLE : View.GONE}"/>
 
                 </LinearLayout>
 
@@ -147,7 +152,8 @@
                     android:layout_height="wrap_content"
                     android:ems="20"
                     android:hint="品名"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@={vm.name}"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -178,7 +184,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        app:srcCompat="@drawable/ic_baseline_done_24" />
+                        app:srcCompat="@drawable/ic_baseline_done_24"
+                        android:visibility="@{vm.isValidPriceInfo ? View.VISIBLE : View.GONE}"/>
 
                 </LinearLayout>
 
@@ -192,7 +199,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="5"
-                    android:hint="単位" />
+                    android:hint="単位"
+                    android:inputType="textPersonName"
+                    android:text="@={vm.unit}"/>
 
                 <TextView
                     style="@style/TextViewSecondary"
@@ -206,7 +215,8 @@
                     android:layout_height="wrap_content"
                     android:ems="5"
                     android:hint="¥1,000"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:text="@={vm.price+``}"/>
 
                 <!--            <EditText-->
                 <!--                android:id="@+id/partsRegisterEditUnit"-->

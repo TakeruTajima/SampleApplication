@@ -48,21 +48,24 @@ public interface PartsDao {
 
     //View resource queries.
     @Query("select " +
-            "maker as name " +
+            "distinct maker as name " +
             "from parts " +
             "order by name asc")
     LiveData<List<MakerListDto>> getMakerList();
 
     @Query("select " +
-            "model as name " +
+            "distinct model as name " +
             "from parts " +
-            "where maker like :maker " +
+            "where maker = :maker " +
             "order by name asc")
     LiveData<List<ModelListDto>> getModelList(String maker);
 
     @Query("select " +
-            "unit as name " +
+            "distinct unit as name " +
             "from parts " +
             "order by name asc")
     LiveData<List<UnitListDto>> getUnitList();
+
+    @Query("select * from parts")
+    LiveData<List<PartsEntity>> findAll();
 }
