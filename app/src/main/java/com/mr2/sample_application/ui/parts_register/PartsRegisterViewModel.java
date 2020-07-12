@@ -13,6 +13,7 @@ import com.mr2.sample_app_domain.parts.Parts;
 import com.mr2.sample_app_infra.room_database.parts.PartsEntity;
 import com.mr2.sample_app_infra.ui_resource.SingleStringListResource;
 import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.MakerModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.ModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
 import com.mr2.sample_application.Executors;
@@ -27,9 +28,10 @@ public class PartsRegisterViewModel extends AndroidViewModel {
 
     // core info
     public MutableLiveData<String> maker = new MutableLiveData<>("");
-    public LiveData<List<MakerListDto>> makerList;
+    public LiveData<List<SingleStringListResource>> makerList;
     public MutableLiveData<String> model = new MutableLiveData<>("");
-    public LiveData<List<ModelListDto>> modelList;
+    public LiveData<List<MakerModelListDto>> makerModelList;
+    public MutableLiveData<List<SingleStringListResource>> modelList = new MutableLiveData<>();
     public MutableLiveData<Boolean> isValidCoreInfo = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> isDuplicate = new MutableLiveData<>(false);
 
@@ -51,13 +53,12 @@ public class PartsRegisterViewModel extends AndroidViewModel {
 //        setDefaultData();
 
         // suggest data
-        Executors.ioThread(()->{
+//        Executors.ioThread(()->{
 //            l = app.db.partsDao().findAll();
             unitList = app.db.partsDao().getUnitList();
             makerList = app.db.partsDao().getMakerList();
-            modelList = app.db.partsDao().getModelList(maker.getValue());
-            System.out.println("load completed.");
-        });
+            makerModelList = app.db.partsDao().getMakerModelList();
+//        });
 //        Executors.ioThread(() -> l = app.db.partsDao().findAll());
 //        Executors.ioThread(()-> outState(app.db.partsDao().allList()));
     }
@@ -99,7 +100,7 @@ public class PartsRegisterViewModel extends AndroidViewModel {
     public static final String CURRENT_CURRENCY = "円";
 
     public void onEdit() {
-        modelList = app.db.partsDao().getModelList(maker.getValue());
+        updateModelList();
         isDuplicate.postValue(checkDup());
         isValidCoreInfo.postValue(Parts.validateMaker(maker.getValue()) && Parts.validateModel(model.getValue()));
         isValidPartsName.postValue(Parts.validateName(name.getValue()));
@@ -107,12 +108,26 @@ public class PartsRegisterViewModel extends AndroidViewModel {
         isValidPriceInfo.postValue(Parts.validateUnit(unit.getValue()) && Parts.validateValue(p, CURRENT_CURRENCY));
     }
 
+    private void updateModelList(){
+        final String makerName = maker.getValue();
+        final List<MakerModelListDto> list = makerModelList.getValue();
+        if (null == makerName || null == list) return;
+
+        List<SingleStringListResource> result = new ArrayList<>();
+        for (MakerModelListDto makerModelListDto : list) {
+            if (makerName.equals(makerModelListDto.maker_name)){
+                result.add(new SingleStringListResource(makerModelListDto.model));
+            }
+        }
+        modelList.postValue(result);
+    }
+
     private boolean checkDup(){
         String m = model.getValue();
-        final List<ModelListDto> value = modelList.getValue();
+        final List<SingleStringListResource> value = modelList.getValue();
         if (null == value) return false;
-        for (ModelListDto modelListDto : value) {
-            if (null != modelListDto && modelListDto.name.equals(m)){
+        for (SingleStringListResource resource : value) {
+            if (null != resource && resource.value.equals(m)){
                 //duplicated
                 return true;
             }

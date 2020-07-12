@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import com.mr2.sample_app_infra.ui_resource.SingleStringListResource;
 import com.mr2.sample_app_infra.ui_resource.parts_register.MakerListDto;
+import com.mr2.sample_app_infra.ui_resource.parts_register.MakerModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.ModelListDto;
 import com.mr2.sample_app_infra.ui_resource.parts_register.UnitListDto;
 
@@ -48,21 +49,25 @@ public interface PartsDao {
                 String unit);
 
     //View resource queries.
-    @Query("select " +
-            "distinct maker as name " +
-            "from parts " +
-            "order by name asc")
-    LiveData<List<MakerListDto>> getMakerList();
 
-    @Query("select unit as value from parts")
+    @Query("select " +
+            "maker as maker_name, " +
+            "model as model " +
+            "from parts " +
+            "order by model asc")
+    LiveData<List<MakerModelListDto>> getMakerModelList();
+
+    @Query("select " +
+            "distinct maker as value " +
+            "from parts " +
+            "order by value asc")
+    LiveData<List<SingleStringListResource>> getMakerList();
+
+    @Query("select " +
+            "distinct unit as value " +
+            "from parts " +
+            "order by value asc")
     LiveData<List<SingleStringListResource>> getUnitList();
-
-    @Query("select " +
-            "distinct model as name " +
-            "from parts " +
-            "where maker = :maker " +
-            "order by name asc")
-    LiveData<List<ModelListDto>> getModelList(String maker);
 
 
     @Query("select * from parts")

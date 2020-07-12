@@ -77,31 +77,34 @@ public class PartsRegisterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentPartsRegisterBinding binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_parts_register, container, false);
+        FragmentPartsRegisterBinding binding;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_parts_register, container, false);
         binding.setLifecycleOwner(this);
         binding.setVm(vm);
-        vm.maker.observe(getViewLifecycleOwner(), maker -> vm.onEdit());
+        vm.maker.observe(getViewLifecycleOwner(), maker -> {
+            vm.onEdit();
+        });
+        vm.makerModelList.observe(getViewLifecycleOwner(), makerModelList ->{});
         vm.model.observe(getViewLifecycleOwner(), model -> vm.onEdit());
-        vm.name.observe(getViewLifecycleOwner(), model -> vm.onEdit());
-        vm.unit.observe(getViewLifecycleOwner(), model -> vm.onEdit());
-        vm.price.observe(getViewLifecycleOwner(), model -> vm.onEdit());
+        vm.name.observe(getViewLifecycleOwner(), name -> vm.onEdit());
+        vm.unit.observe(getViewLifecycleOwner(), unit -> vm.onEdit());
+        vm.price.observe(getViewLifecycleOwner(), price -> vm.onEdit());
         vm.isValidCoreInfo.observe(getViewLifecycleOwner(), isDone ->
                 binding.partsRegisterDone1.setVisibility(isDone ? View.VISIBLE : View.INVISIBLE));
 
+        binding.partsRegisterEditAutoMaker.setThreshold(1);
+        binding.partsRegisterEditAutoMaker.setOnFocusChangeListener(this::showDropDown);
+        binding.partsRegisterEditAutoModel.setThreshold(1);
+        binding.partsRegisterEditAutoModel.setOnFocusChangeListener(this::showDropDown);
+        binding.partsRegisterEditAutoUnit.setThreshold(1);
+        binding.partsRegisterEditAutoUnit.setOnFocusChangeListener(this::showDropDown);
         return binding.getRoot();
     }
 
-    @BindingAdapter({"suggestMaker"})
-    public static void suggestMaker(AutoCompleteTextView textView, List<MakerListDto> list){
-        String[] con = new String[null == list ? 0 : list.size()];
-        for (int i = 0; i < con.length; i++) {
-            con[i] = list.get(i).name;
-        }
-//        String[] con = {"あい","あいう","あいうえ","あいうえお","あいうえおか", "あいうえおかき","あいうえおかきく","あいうえおかきくけ","あいうえおかきくけこ"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(textView.getContext(), android.R.layout.simple_list_item_1, con);
-        textView.setAdapter(adapter);
+    private void showDropDown(View v, boolean hasFocus){
+        ((AutoCompleteTextView)v).showDropDown();
     }
+
 //
 //    @BindingAdapter({"suggestUnit"})
 //    public static void suggestUnit(AutoCompleteTextView textView, List<UnitListDto> list){
