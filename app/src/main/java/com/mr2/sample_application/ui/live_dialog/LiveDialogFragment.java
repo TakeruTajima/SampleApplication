@@ -16,13 +16,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.mr2.sample_application.R;
-import com.mr2.sample_application.databinding.FragmentLiveDialogBinding;
+import com.mr2.sample_application.databinding.FragmentLiveDialogEditBinding;
 
 public class LiveDialogFragment extends DialogFragment {
     private static final String KEY_TITLE = "title";
     private static final String KEY_MESSAGE = "message";
     private LiveDialogViewModel vm;
-    private FragmentLiveDialogBinding binding;
+    private FragmentLiveDialogEditBinding binding;
+    public enum DialogType{ message, input }
 
     public static LiveDialogFragment newInstance(String title, String message) {
         Bundle args = new Bundle();
@@ -37,7 +38,7 @@ public class LiveDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         /* view model & binding */
-        binding = FragmentLiveDialogBinding.inflate(LayoutInflater.from(getContext()));
+        binding = FragmentLiveDialogEditBinding.inflate(LayoutInflater.from(getContext()));
         ViewModelStoreOwner parent = getParentFragment();
         if (null == parent) throw new IllegalStateException("LiveDialogFragmentのParentFragmentが取得できませんでした。");
         vm = new ViewModelProvider(parent, getDefaultViewModelProviderFactory())
@@ -55,7 +56,7 @@ public class LiveDialogFragment extends DialogFragment {
         builder.setMessage(message);
         builder.setView(binding.getRoot());
         binding.liveDialogEditText.setHint("hint: xxxx");
-        builder.setPositiveButton("OK", LISTENER); //TODO: ボタンのBackgroundColorが@color/colorPrimary
+        builder.setPositiveButton("OK", LISTENER);
         builder.setNegativeButton("cancel", LISTENER);
         return builder.create();
     }

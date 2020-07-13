@@ -17,6 +17,7 @@ import com.mr2.sample_app_infra.room_database.users.UserDao;
 import com.mr2.sample_app_infra.room_database.users.UserEntity;
 import com.mr2.sample_app_infra.room_database.users_items.UserItemEntity;
 import com.mr2.sample_app_infra.room_database.users_items.UserItemDao;
+import com.mr2.sample_app_infra.ui_resource.parts_register.PartsRegisterResourceDao;
 
 import java.util.List;
 
@@ -56,4 +57,5 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract ListDataSourceDao listDataSourceDao();
     public abstract SampleDao sampleDao();
     public abstract PartsDao partsDao();
+    public abstract PartsRegisterResourceDao partsRegisterResourceDao();
 }

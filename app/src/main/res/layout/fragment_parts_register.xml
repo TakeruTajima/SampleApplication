@@ -9,227 +9,271 @@
             type="com.mr2.sample_application.ui.parts_register.PartsRegisterViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.cardview.widget.CardView
-            style="@style/MyCardViewStyle"
+        android:layout_height="match_parent">
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    style="@style/MyCardViewStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        style="@style/TextViewPrimary"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="基礎情報" />
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/partsRegisterDone1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        app:srcCompat="@drawable/ic_baseline_done_24"
-                        />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                </LinearLayout>
+                            <TextView
+                                style="@style/TextViewPrimary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="基礎情報" />
 
-                <TextView
-                    style="@style/TextViewSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="メーカー (1~50文字)" />
+                            <ImageView
+                                android:id="@+id/partsRegisterDone1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                app:srcCompat="@drawable/ic_baseline_done_24"
+                                android:visibility="@{vm.isValidCoreInfo ? View.VISIBLE : View.GONE}"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/partsRegisterEditAutoMaker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"
-                    android:hint="メーカー名"
-                    android:inputType="textPersonName"
-                    android:text="@={vm.maker}"
-                    app:autoCompleteAdapter="@{vm.makerList}" />
+                        </LinearLayout>
 
-                <LinearLayout
+                        <TextView
+                            style="@style/TextViewSecondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="メーカー (1~50文字)" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/partsRegisterEditAutoMaker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="20"
+                            android:hint="メーカー名"
+                            android:inputType="textPersonName"
+                            android:text="@={vm.maker}"
+                            android:imeOptions="actionNext"
+                            app:autoCompleteAdapter="@{vm.makerList}" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewSecondary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="型式/品番 (1~50文字)" />
+
+                            <TextView
+                                android:id="@+id/partsRegisterNoticeModel"
+                                style="@style/TextViewNotice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="*既に登録されています"
+                                android:layout_marginStart="8dp"
+                                android:visibility="@{vm.isDuplicate ? View.VISIBLE : View.GONE}" />
+        <!--                    TODO-->
+                        </LinearLayout>
+
+                        <AutoCompleteTextView
+                            android:id="@+id/partsRegisterEditAutoModel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="20"
+                            android:hint="型式"
+                            android:inputType="textPersonName"
+                            android:imeOptions="actionNext"
+                            android:text="@={vm.model}"
+                            app:autoCompleteAdapter="@{vm.modelList}" />
+
+                        <!--            <EditText-->
+                        <!--                android:id="@+id/partsRegisterEditMaker"-->
+                        <!--                android:layout_width="wrap_content"-->
+                        <!--                android:layout_height="wrap_content"-->
+                        <!--                android:ems="20"-->
+                        <!--                android:inputType="textPersonName"-->
+                        <!--                android:text="コクヨ" />-->
+
+                        <!--            <EditText-->
+                        <!--                android:id="@+id/partsRegisterEditModel"-->
+                        <!--                android:layout_width="wrap_content"-->
+                        <!--                android:layout_height="wrap_content"-->
+                        <!--                android:ems="20"-->
+                        <!--                android:inputType="textPersonName"-->
+                        <!--                android:text="フ-E842B" />-->
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    style="@style/MyCardViewStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        style="@style/TextViewSecondary"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="8dp"
-                        android:text="型式/品番 (1~50文字)" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/partsRegisterNoticeModel"
-                        style="@style/TextViewNotice"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewPrimary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="付帯情報1" />
+
+                            <ImageView
+                                android:id="@+id/partsRegisterDone2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                app:srcCompat="@drawable/ic_baseline_done_24"
+                                android:visibility="@{vm.isValidPartsName ? View.VISIBLE : View.GONE}"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextViewSecondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="品名 (1~50文字)" />
+
+                        <EditText
+                            android:id="@+id/partsRegisterEditName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="20"
+                            android:hint="品名"
+                            android:inputType="textPersonName"
+                            android:text="@={vm.name}"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    style="@style/MyCardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="*既に登録されています"
-                        android:visibility="@{vm.isDuplicate ? View.VISIBLE : View.GONE}" />
-<!--                    TODO-->
-                </LinearLayout>
+                        android:orientation="vertical">
 
-                <AutoCompleteTextView
-                    android:id="@+id/partsRegisterEditAutoModel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"
-                    android:hint="型式"
-                    android:inputType="textPersonName"
-                    android:text="@={vm.model}"
-                    app:autoCompleteAdapter="@{vm.modelList}" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                <!--            <EditText-->
-                <!--                android:id="@+id/partsRegisterEditMaker"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:ems="20"-->
-                <!--                android:inputType="textPersonName"-->
-                <!--                android:text="コクヨ" />-->
+                            <TextView
+                                style="@style/TextViewPrimary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="付帯情報2" />
 
-                <!--            <EditText-->
-                <!--                android:id="@+id/partsRegisterEditModel"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:ems="20"-->
-                <!--                android:inputType="textPersonName"-->
-                <!--                android:text="フ-E842B" />-->
+                            <ImageView
+                                android:id="@+id/partsRegisterDone3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0"
+                                app:srcCompat="@drawable/ic_baseline_done_24"
+                                android:visibility="@{vm.isValidPriceInfo ? View.VISIBLE : View.GONE}"/>
 
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextViewSecondary"
+                            android:text="管理単位 (1~10文字)" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/partsRegisterEditAutoUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:hint="単位"
+                            android:inputType="textPersonName"
+                            android:imeOptions="actionNext"
+                            android:text="@={vm.unit}"
+                            app:autoCompleteAdapter="@{vm.unitList}"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                style="@style/TextViewSecondary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="資産価値 (0~999,999,999円)" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextViewNotice"
+                                android:text="*入力してください"
+                                android:layout_marginStart="8dp"
+                                android:visibility="@{vm.isNotNumeric ? View.VISIBLE : View.GONE}"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <EditText
+                                android:id="@+id/partsRegisterEditValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="5"
+                                android:hint="1000"
+                                android:inputType="numberSigned|numberDecimal"
+                                android:text="@={vm.priceString}"
+                                android:gravity="end"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="円"
+                                style="@style/TextViewSecondary"/>
+                        </LinearLayout>
+
+                        <!--            <EditText-->
+                        <!--                android:id="@+id/partsRegisterEditUnit"-->
+                        <!--                android:layout_width="match_parent"-->
+                        <!--                android:layout_height="wrap_content"-->
+                        <!--                android:ems="10"-->
+                        <!--                android:inputType="textPersonName"-->
+                        <!--                android:hint="単位"/>-->
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            style="@style/MyCardViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
+            <ProgressBar
+                android:id="@+id/partsRegisterProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:visibility="@{vm.hasProgress ? View.VISIBLE : View.GONE}" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/TextViewPrimary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="付帯情報1" />
-
-                    <ImageView
-                        android:id="@+id/partsRegisterDone2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        app:srcCompat="@drawable/ic_baseline_done_24"
-                        android:visibility="@{vm.isValidPartsName ? View.VISIBLE : View.GONE}"/>
-
-                </LinearLayout>
-
-                <TextView
-                    style="@style/TextViewSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="品名 (1~50文字)" />
-
-                <EditText
-                    android:id="@+id/partsRegisterEditName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="20"
-                    android:hint="品名"
-                    android:inputType="textPersonName"
-                    android:text="@={vm.name}"/>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            style="@style/MyCardViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/TextViewPrimary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="付帯情報2" />
-
-                    <ImageView
-                        android:id="@+id/partsRegisterDone3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        app:srcCompat="@drawable/ic_baseline_done_24"
-                        android:visibility="@{vm.isValidPriceInfo ? View.VISIBLE : View.GONE}"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="管理単位 (1~10文字)" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/partsRegisterEditAutoUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:hint="単位"
-                    android:inputType="textPersonName"
-                    android:text="@={vm.unit}"
-                    app:autoCompleteAdapter="@{vm.unitList}"/>
-
-                <TextView
-                    style="@style/TextViewSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="資産価値 (0~999,999,999円)" />
-
-                <EditText
-                    android:id="@+id/partsRegisterEditValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:hint="¥1,000"
-                    android:inputType="number"
-                    android:text="@={vm.price+``}"/>
-
-                <!--            <EditText-->
-                <!--                android:id="@+id/partsRegisterEditUnit"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:ems="10"-->
-                <!--                android:inputType="textPersonName"-->
-                <!--                android:hint="単位"/>-->
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+        </FrameLayout>
+    </ScrollView>
 </layout>

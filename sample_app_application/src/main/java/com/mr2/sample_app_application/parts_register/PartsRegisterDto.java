@@ -4,7 +4,7 @@ public class PartsRegisterDto {
     public String name;
     public String model;
     public String maker;
-    public int value;
+    public float value;
     public String currency;
     public String unit;
 
@@ -32,7 +32,7 @@ public class PartsRegisterDto {
         return this;
     }
 
-    public PartsRegisterDto setValue(int value) {
+    public PartsRegisterDto setValue(float value) {
         this.value = value;
         return this;
     }

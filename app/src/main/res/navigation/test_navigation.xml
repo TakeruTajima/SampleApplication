@@ -24,5 +24,23 @@
             android:name="partsId"
             android:defaultValue="0"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_partsRegisterFragment_to_liveDialogFragment2"
+            app:destination="@id/liveDialogFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/liveDialogFragment"
+        android:name="com.mr2.sample_application.ui.live_dialog.LiveDialogFragment"
+        android:label="LiveDialogFragment" >
+        <argument
+            android:name="title"
+            app:argType="String"/>
+        <argument
+            android:name="message"
+            app:argType="String"/>
+<!--        <argument-->
+<!--            android:name="dialogType"-->
+<!--            app:argType="LiveDialogFragment.DialogType"/>-->
+    </dialog>
+
 </navigation>
